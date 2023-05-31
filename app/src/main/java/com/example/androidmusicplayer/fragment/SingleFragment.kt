@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidmusicplayer.R
 import com.example.androidmusicplayer.adapter.AlphabetAdapter
-import com.example.androidmusicplayer.struct.Play
 import com.example.androidmusicplayer.struct.PlayList
 
 class SingleFragment : Fragment() {
@@ -29,19 +28,9 @@ class SingleFragment : Fragment() {
     }
 
     private fun initPage(){
-        val playList = PlayList("",R.drawable.logo)
-        playList.add(Play("a12","213"))
-        playList.add(Play("a12","213"))
-        playList.add(Play("a12","213"))
-        playList.add(Play("a12","213"))
-        playList.add(Play("a12","213"))
-        playList.add(Play("a12","213"))
-        playList.add(Play("a12","213"))
-        playList.add(Play("a12","213"))
-        playList.add(Play("a12","213"))
-        playList.add(Play("a12","213"))
-        playList.add(Play("a12","213"))
-        playList.add(Play("a12","213"))
+        val intent = activity?.intent
+        val playList = intent?.getSerializableExtra("localMusic") as PlayList
+        playList.sortIt()
         val recyclerView : RecyclerView = layout.findViewById(R.id.recyclerView)
         val listAdapter = AlphabetAdapter(playList.getList(),this)
         recyclerView.adapter = listAdapter

@@ -16,6 +16,10 @@ open class BasicList(val str: String, val content: String, val imgId: Int) : Ser
 
     fun getList(): ArrayList<Play> = list
 
+    fun sortIt() {
+        list.sortByDescending { play -> play.name[0] }
+    }
+
     fun add(play: Play) = list.add(play)
 
     fun remove(i: Play) = list.remove(i)

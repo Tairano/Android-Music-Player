@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.androidmusicplayer.R
 import com.example.androidmusicplayer.adapter.BasicAdapter
 import com.example.androidmusicplayer.struct.BasicList
-import com.example.androidmusicplayer.struct.Play
-import com.example.androidmusicplayer.struct.Singer
 
 class SingerFragment : Fragment() {
     private lateinit var layout: View
@@ -30,17 +28,10 @@ class SingerFragment : Fragment() {
     }
 
     private fun initPage(){
-        val singerList = ArrayList<BasicList>()
-        var list = Singer("邵帅", R.mipmap.ic_launcher)
-        var play = Play("写给黄淮","邵帅")
-        list.add(play)
-        singerList.add(list)
-        list = Singer("宋东野", R.mipmap.ic_launcher)
-        play = Play("斑马","宋东野")
-        list.add(play)
-        singerList.add(list)
+        val intent = activity?.intent
+        val playList = intent?.getSerializableExtra("singerList") as ArrayList<BasicList>
         val recyclerView : RecyclerView = layout.findViewById(R.id.recyclerView)
-        val listAdapter = BasicAdapter(singerList,this)
+        val listAdapter = BasicAdapter(playList,this)
         recyclerView.adapter = listAdapter
     }
 }

@@ -4,10 +4,12 @@ import android.content.Context
 import android.content.res.AssetManager
 import com.example.androidmusicplayer.R
 import java.io.File
+import kotlin.math.sin
 
 class LocalFileManager {
-    val list = ArrayList<Play>()
+    val list = PlayList("localMusic",R.drawable.logo)
     val fileList = ArrayList<BasicList>()
+    val singerList = ArrayList<BasicList>()
 
     private lateinit var assetManager : AssetManager
 
@@ -37,12 +39,14 @@ class LocalFileManager {
                         parm2 = parm1
                         parm1 = params[1]
                     }
-
                     val play = Play(parm1,parm2)
                     play.path = "$path/$i"
                     play.fileName = i
                     bList.add(play)
                     list.add(play)
+                    if( params.size > 1){
+                        putInSinger(parm2).add(play)
+                    }
                     check = true
                 }
                 searchFile("$path/$i")
@@ -51,5 +55,15 @@ class LocalFileManager {
         if(check){
             fileList.add(bList)
         }
+    }
+
+    private fun putInSinger(author: String): BasicList{
+        for(i in singerList){
+            if(i.str == author){
+                return i
+            }
+        }
+        singerList.add(BasicList(author, "",R.drawable.logo))
+        return singerList.last()
     }
 }
