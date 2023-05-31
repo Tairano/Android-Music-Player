@@ -30,15 +30,8 @@ class FolderFragment : Fragment() {
     }
 
     private fun initPage(){
-        val folderList = ArrayList<BasicList>()
-        var list = Folder("8080","localhost:8080/")
-        var play = Play("写给黄淮","邵帅")
-        list.add(play)
-        folderList.add(list)
-        list = Folder("music","storage/src/music")
-        play = Play("写给黄淮","邵帅")
-        list.add(play)
-        folderList.add(list)
+        val intent = activity?.intent
+        val folderList = intent?.getSerializableExtra("fileList") as ArrayList<BasicList>
         val recyclerView : RecyclerView = layout.findViewById(R.id.recyclerView)
         val listAdapter = BasicAdapter(folderList,this)
         recyclerView.adapter = listAdapter
