@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Mine">
+    tools:context=".basicpage.Mine">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#26F8CE">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -17,36 +17,82 @@
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="163dp"
-                android:background="#FF6666">
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:id="@+id/localMusic"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        style="@style/CardButton"
+                        android:background="@drawable/card_radius"
+                        android:text="@string/button_localMusic_text"/>
+
+                    <Button
+                        android:id="@+id/recentPlayed"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        style="@style/CardButton"
+                        android:background="@drawable/card_radius"
+                        android:text="@string/button_recentPlayed_text" />
+
+                    <Button
+                        android:id="@+id/myCollection"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        style="@style/CardButton"
+                        android:background="@drawable/card_radius"
+                        android:text="@string/button_myCollection_text" />
+                </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent" >
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    <Button
+                        android:id="@+id/myFriends"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        style="@style/CardButton"
+                        android:background="@drawable/card_radius"
+                        android:text="@string/button_myFriends_text" />
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    <Button
+                        android:id="@+id/collectionAndSupport"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        style="@style/CardButton"
+                        android:background="@drawable/card_radius"
+                        android:text="@string/button_collectionAndSupport_text" />
+
+                    <Button
+                        android:id="@+id/podcasts"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_weight="1"
+                        style="@style/CardButton"
+                        android:background="@drawable/card_radius"
+                        android:text="@string/button_podcasts_text" />
+                </TableRow>
             </TableLayout>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/my_play_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#2099F6" />
+                android:layout_margin="5dp"
+                android:background="@drawable/list_card_radius"
+                app:layoutManager="LinearLayoutManager" />
 
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Button" />
         </LinearLayout>
     </ScrollView>
 </FrameLayout>

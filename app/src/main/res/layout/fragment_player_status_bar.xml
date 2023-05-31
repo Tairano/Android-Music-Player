@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="40dp"
-    tools:context=".PlayerStatusBar">
+    tools:context=".bar.PlayerStatusBar">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
             android:id="@+id/imageView"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            tools:src="@tools:sample/avatars" />
+            tools:src="@drawable/logo" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -28,16 +28,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="TextView"
-                android:textAlignment="center" />
+                android:text="写给黄淮"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:layout_marginTop="7dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="TextView"
-                android:textAlignment="center" />
+                android:layout_weight="2"
+                android:text="-邵帅"
+                android:textAlignment="viewStart"
+                android:textColor="#999999"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -47,18 +54,18 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Button" />
+                android:id="@+id/button_play"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/stop"/>
 
             <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Button" />
+                android:id="@+id/button_stop"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/change_right"/>
         </LinearLayout>
 
     </LinearLayout>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.RecentPlayedActivity">
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:background="@color/favour_red">
+
+    <Button
+        android:id="@+id/go_back"
+        style="@style/CardButton"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="35dp"
+        android:background="@drawable/go_back"
+        android:backgroundTintMode="src_over" />
+
+    <TextView
+        android:layout_width="216dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="50dp"
+        android:paddingTop="10dp"
+        android:text="我的收藏"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/search"
+        style="@style/CardButton"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/search"
+        android:backgroundTintMode="src_over" />
+
+    <Button
+        android:id="@+id/option"
+        style="@style/CardButton"
+        android:layout_width="45dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/more"
+        android:backgroundTintMode="src_over" />
+
+  </LinearLayout>
+
+
+  <com.google.android.material.tabs.TabLayout
+      android:id="@+id/tabLayout"
+      android:layout_width="match_parent"
+      android:layout_height="50dp">
+
+    <com.google.android.material.tabs.TabItem
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="单曲" />
+
+    <com.google.android.material.tabs.TabItem
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="专辑" />
+
+    <com.google.android.material.tabs.TabItem
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="歌手" />
+
+    <com.google.android.material.tabs.TabItem
+        android:id="@+id/tabItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="文件夹" />
+  </com.google.android.material.tabs.TabLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="40dp"
+      android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/play_all"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/stop" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:text="播放全部"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+  </LinearLayout>
+
+  <androidx.recyclerview.widget.RecyclerView
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1" />
+
+  <androidx.fragment.app.FragmentContainerView
+      android:id="@+id/PlayerStatusBar"
+      android:name="com.example.androidmusicplayer.bar.PlayerStatusBar"
+      android:layout_width="match_parent"
+      android:layout_height="40dp" />
+
+</LinearLayout>

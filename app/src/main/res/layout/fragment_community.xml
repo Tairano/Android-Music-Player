@@ -3,12 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Community">
+    tools:context=".basicpage.Community">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_marginTop="150dp"
+        android:text="敬请期待"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        android:textStyle="bold" />
 
 </FrameLayout>

@@ -5,22 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".PlayListActivity">
+    tools:context=".activity.PlayListActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal">
+        android:background="@color/favour_red" >
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/go_back"
+            style="@style/CardButton"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
-            android:background="#FF0000" />
+            android:layout_marginEnd="35dp"
+            android:background="@drawable/go_back"
+            android:backgroundTintMode="src_over" />
+
+        <TextView
+            android:layout_width="106dp"
+            android:layout_height="wrap_content"
+            android:text="歌单"
+            android:layout_marginTop="5dp"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_weight="1"
+        android:background="@color/shallow_white"
         android:layout_height="0dp">
 
         <LinearLayout
@@ -28,16 +44,57 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/list_card_radius"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/list_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:layout_margin="10dp"
+                    android:background="@color/white"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="20dp"
+                    android:textAlignment="viewEnd"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/create_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:textColor="#AAAAAA"
+                    android:layout_margin="10dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/play_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                android:background="@drawable/list_card_radius"
+                app:layoutManager="LinearLayoutManager" />
 
         </LinearLayout>
     </ScrollView>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
-        android:name="com.example.androidmusicplayer.PlayerStatusBar"
+        android:name="com.example.androidmusicplayer.bar.PlayerStatusBar"
         android:layout_width="match_parent"
         android:layout_height="40dp" />
 </LinearLayout>

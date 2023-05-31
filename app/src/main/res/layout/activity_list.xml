@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.ListActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/favour_red">
+
+        <Button
+            android:id="@+id/go_back"
+            style="@style/CardButton"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/go_back"
+            android:backgroundTintMode="src_over" />
+
+        <TextView
+            android:id="@+id/top_text"
+            android:layout_width="210dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="40dp"
+            android:paddingTop="10dp"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/check_out"
+            android:layout_width="130dp"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            tools:text="查看歌手" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/play_all"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/stop" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:text="播放全部"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/PlayerStatusBar"
+        android:name="com.example.androidmusicplayer.bar.PlayerStatusBar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+</LinearLayout>

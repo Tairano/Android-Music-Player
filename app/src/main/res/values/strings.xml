@@ -45,4 +45,10 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="button_localMusic_text">本地音乐</string>
+    <string name="button_recentPlayed_text">最近播放</string>
+    <string name="button_myCollection_text">我的收藏</string>
+    <string name="button_myFriends_text">我的好友</string>
+    <string name="button_collectionAndSupport_text">收藏和赞</string>
+    <string name="button_podcasts_text">播客</string>
 </resources>

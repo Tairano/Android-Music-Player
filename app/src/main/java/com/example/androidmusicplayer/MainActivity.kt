@@ -5,6 +5,10 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.example.androidmusicplayer.basicpage.Community
+import com.example.androidmusicplayer.basicpage.Concern
+import com.example.androidmusicplayer.basicpage.Mine
+import com.example.androidmusicplayer.struct.Play
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -14,20 +18,24 @@ val fragments = arrayOf(
     "社区" to Community()
 )
 
+val localList: ArrayList<Play> = ArrayList()
+
 class MainActivity : AppCompatActivity() {
     private lateinit var viewPager2: ViewPager2
     private lateinit var tabLayout: TabLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initPage()
     }
 
+
     private fun initPage(){
         viewPager2 = findViewById(R.id.viewPager)
         tabLayout = findViewById(R.id.tabLayout)
-        val adapter = MyViewPager2Adapter(this)
-        viewPager2.adapter = adapter
+        val viewAdapter = MyViewPager2Adapter(this)
+        viewPager2.adapter = viewAdapter
         TabLayoutMediator(tabLayout, viewPager2) {tab, position ->
             tab.text = fragments[position].first
         }.attach()

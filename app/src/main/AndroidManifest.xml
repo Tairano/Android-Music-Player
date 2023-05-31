@@ -6,20 +6,66 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidMusicPlayer"
         tools:targetApi="31">
         <activity
-            android:name=".PlaybackPage"
-            android:exported="false"
-            android:label="@string/title_activity_playback_page"
-            android:theme="@style/Theme.AndroidMusicPlayer" />
+            android:name=".activity.ListActivity"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="ListActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
-            android:name=".PlayListActivity"
-            android:exported="false" />
+            android:name=".activity.MyCollectionActivity"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="MyCollectionActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.RecentPlayedActivity"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="RecentPlayedActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.LocalMusicActivity"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="LocalMusicActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.PlayPageActivity"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="PlayPageActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.PlayListActivity"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="PlayListActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">
