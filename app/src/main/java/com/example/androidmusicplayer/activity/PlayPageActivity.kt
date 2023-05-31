@@ -1,5 +1,6 @@
 package com.example.androidmusicplayer.activity
 
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -9,12 +10,15 @@ import com.example.androidmusicplayer.struct.Play
 
 class PlayPageActivity : AppCompatActivity() {
     private lateinit var play : Play
+    private val mediaPlayer = MediaPlayer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_page)
         val intent = intent
         play = intent.getSerializableExtra("play") as Play
+        initMediaPlayer()
+        mediaPlayer.start()
         initPage()
     }
 
@@ -27,5 +31,12 @@ class PlayPageActivity : AppCompatActivity() {
         goBack.setOnClickListener {
             this.finish()
         }
+    }
+
+    private fun initMediaPlayer() {
+        val assetManager = assets
+        val fd = assetManager.openFd("01. 마지막처럼.mp3")
+        mediaPlayer.setDataSource(fd.fileDescriptor,fd.startOffset,fd.length)
+        mediaPlayer.prepare()
     }
 }
