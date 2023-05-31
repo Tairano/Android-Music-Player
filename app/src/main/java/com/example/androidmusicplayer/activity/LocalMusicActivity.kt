@@ -1,6 +1,7 @@
 package com.example.androidmusicplayer.activity
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,8 +15,10 @@ import com.example.androidmusicplayer.fragment.AlbumFragment
 import com.example.androidmusicplayer.fragment.FolderFragment
 import com.example.androidmusicplayer.fragment.SingerFragment
 import com.example.androidmusicplayer.fragment.SingleFragment
+import com.example.androidmusicplayer.struct.LocalFileManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import java.io.File
 
 
 val fragments = arrayOf(
@@ -33,6 +36,12 @@ class LocalMusicActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_local_music)
         initPage()
+        val manager = LocalFileManager()
+        manager.searchLoadMusic(this)
+        val intent = intent
+        intent.putExtra("fileList",manager.fileList)
+        intent.putExtra("localMusic",manager.list)
+        intent.putExtra("singerList",manager.singerList)
     }
 
     private fun initPage() {

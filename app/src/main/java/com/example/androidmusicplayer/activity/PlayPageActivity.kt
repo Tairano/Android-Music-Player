@@ -35,7 +35,7 @@ class PlayPageActivity : AppCompatActivity() {
 
     private fun initMediaPlayer() {
         val assetManager = assets
-        val fd = assetManager.openFd("01. 마지막처럼.mp3")
+        val fd = assetManager.openFd(play.path)
         mediaPlayer.setDataSource(fd.fileDescriptor,fd.startOffset,fd.length)
         mediaPlayer.prepare()
     }
