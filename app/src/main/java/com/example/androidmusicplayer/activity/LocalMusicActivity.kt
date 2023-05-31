@@ -43,7 +43,7 @@ class LocalMusicActivity : AppCompatActivity() {
         val option : Button = findViewById(R.id.option)
         val popMenu = PopupMenu(this,option)
         popMenu.inflate(R.menu.local_music_menu)
-        popMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+        popMenu.setOnMenuItemClickListener{ item ->
             when( item.itemId ){
                 R.id.scan ->{
                     Toast.makeText(this, "此功能暂未实现，敬请期待。", Toast.LENGTH_SHORT).show()
@@ -51,7 +51,7 @@ class LocalMusicActivity : AppCompatActivity() {
                 }
                 else -> false
             }
-        })
+        }
         registerForContextMenu(option)
         viewPager.adapter = adapter
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
