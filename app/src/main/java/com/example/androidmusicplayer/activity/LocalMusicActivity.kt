@@ -1,14 +1,10 @@
 package com.example.androidmusicplayer.activity
 
-import android.icu.lang.UCharacter.BidiPairedBracketType.OPEN
 import android.os.Bundle
-import android.view.ContextMenu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -42,9 +38,20 @@ class LocalMusicActivity : AppCompatActivity() {
     private fun initPage() {
         viewPager = findViewById(R.id.viewPager)
         tabLayout = findViewById(R.id.tabLayout)
-        var adapter = LocalMusicActivityAdapter(this)
+        val adapter = LocalMusicActivityAdapter(this)
         val goBack : Button = findViewById(R.id.go_back)
         val option : Button = findViewById(R.id.option)
+        val popMenu = PopupMenu(this,option)
+        popMenu.inflate(R.menu.local_music_menu)
+        popMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+            when( item.itemId ){
+                R.id.scan ->{
+                    Toast.makeText(this, "此功能暂未实现，敬请期待。", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> false
+            }
+        })
         registerForContextMenu(option)
         viewPager.adapter = adapter
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
@@ -53,27 +60,12 @@ class LocalMusicActivity : AppCompatActivity() {
         goBack.setOnClickListener {
             finish()
         }
-    }
-
-    override fun onCreateContextMenu(
-        menu: ContextMenu?,
-        v: View?,
-        menuInfo: ContextMenu.ContextMenuInfo?
-    ) {
-        val inflator = MenuInflater(this)
-        inflator.inflate(R.menu.local_music_menu, menu)
-
-        menu!!.add(1, OPEN, 1, "打开")
-
-        super.onCreateContextMenu(menu, v, menuInfo)
-    }
-
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.scan -> Toast.makeText(this, "此功能暂未实现，敬请期待。", Toast.LENGTH_SHORT).show()
+        option.setOnClickListener {
+            popMenu.show()
         }
-        return super.onContextItemSelected(item)
     }
+
+
 
     private inner class LocalMusicActivityAdapter(fm: FragmentActivity) : FragmentStateAdapter(fm){
         override fun getItemCount(): Int = fragments.size
