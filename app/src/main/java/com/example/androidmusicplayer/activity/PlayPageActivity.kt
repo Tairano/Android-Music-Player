@@ -10,7 +10,6 @@ import com.example.androidmusicplayer.struct.Play
 
 class PlayPageActivity : AppCompatActivity() {
     private lateinit var play : Play
-    private val mediaPlayer = MediaPlayer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +17,6 @@ class PlayPageActivity : AppCompatActivity() {
         val intent = intent
         play = intent.getSerializableExtra("play") as Play
         initMediaPlayer()
-        mediaPlayer.start()
         initPage()
     }
 
@@ -36,7 +34,5 @@ class PlayPageActivity : AppCompatActivity() {
     private fun initMediaPlayer() {
         val assetManager = assets
         val fd = assetManager.openFd(play.path)
-        mediaPlayer.setDataSource(fd.fileDescriptor,fd.startOffset,fd.length)
-        mediaPlayer.prepare()
     }
 }

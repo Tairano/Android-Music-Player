@@ -13,6 +13,7 @@ import com.example.androidmusicplayer.struct.Play
 import com.example.androidmusicplayer.struct.PlayList
 import com.example.androidmusicplayer.R
 import com.example.androidmusicplayer.adapter.CustomAdapter
+import com.example.androidmusicplayer.struct.PlayService
 
 class Mine : Fragment() {
 
