@@ -18,6 +18,9 @@ import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import com.example.androidmusicplayer.MainActivity
 import com.example.androidmusicplayer.R
+import kotlin.random.Random
+
+fun rand(max: Int, min: Int): Int = Random.nextInt(max - min + 1) + min
 
 open class PlayService : Service() {
     private val binder = PlayBinder()
@@ -27,27 +30,61 @@ open class PlayService : Service() {
     private var path = ""
     private val playList = ArrayList<Play>()
     private var point = 0
+    private val listener = MyListener()
+
+    fun changeSongIndex(){
+        if(listener.playTypeStatus == 0){
+            return
+        }
+        else if(listener.playTypeStatus == 1){
+            point ++
+            if(point > playList.size - 1)
+                point = 0
+        }
+        else{
+            point = rand(playList.size - 1, 0)
+        }
+    }
 
     fun preSong(){
-        point --
-        if(point < 0)
-            point = playList.size - 1
-        playInList()
-        addInRecentPlayed()
+        if(listener.playTypeStatus == 2){
+            changeSongIndex()
+            playInList()
+        }
+        else{
+            point --
+            if(point < 0)
+                point = playList.size - 1
+            playInList()
+        }
+
     }
 
     fun nextSong(){
-        point ++
-        if(point > playList.size - 1)
-            point = 0
+        listener.refresh()
+        changeSongIndex()
         playInList()
-        addInRecentPlayed()
+    }
+
+    fun forceNextSong(){
+        if(listener.playTypeStatus == 0){
+            point --
+            if(point < 0)
+                point = playList.size - 1
+            playInList()
+        }
+        else nextSong()
     }
 
     fun pauseOrPlay(){
-        if(player.isPlaying)
+        listener.playStatus = if(player.isPlaying) {
             player.pause()
-        else player.start()
+            1
+        } else{
+            player.start()
+            0
+        }
+        listener.refresh()
     }
 
     fun addSong(play: Play){
@@ -58,30 +95,36 @@ open class PlayService : Service() {
             playList.indexOf(play)
         }
         playInList()
-        addInRecentPlayed()
     }
 
-    fun addInRecentPlayed(){
+    private fun addInRecentPlayed(){
         Log.d("music","good")
     }
 
-    fun playInList(){
+    private fun playInList(){
         if(path != playList[point].path){
             path = playList[point].path
             player.stop()
             player.reset()
             setSource(path)
         }
+        listener.playStatus = 0
+        listener.name = playList[point].name
+        listener.author = playList[point].author
+        listener.refresh()
+        addInRecentPlayed()
         player.start()
-        val intent = Intent("PlayPageActivity")
-        intent.putExtra("titleName",playList[point].name)
-        intent.putExtra("titleAuthor",playList[point].author)
     }
 
-    fun setSource(filePath: String){
+    private fun setSource(filePath: String){
         fd = assetManager.openFd(filePath)
         player.setDataSource(fd.fileDescriptor,fd.startOffset,fd.length)
         player.prepare()
+    }
+
+    fun changePlayType(){
+        listener.playTypeStatus = (listener.playTypeStatus + 1) % 3
+        listener.refresh()
     }
 
     override fun onBind(intent: Intent): IBinder {
@@ -147,6 +190,7 @@ open class PlayService : Service() {
     }
 
     inner class PlayBinder : Binder() {
+
         fun pre(){
             preSong()
         }
@@ -163,10 +207,15 @@ open class PlayService : Service() {
             addSong(play)
         }
 
-        fun getName(): String = playList[point].name
+        fun changePlay(){
+            changePlayType()
+        }
 
-        fun getAuthor(): String = playList[point].author
+        fun forceNext(){
+            forceNextSong()
+        }
 
+        fun getListener(): MyListener = listener
     }
 
     inner class MyBroadcastReceiver : BroadcastReceiver() {
