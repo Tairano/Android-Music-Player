@@ -122,7 +122,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_margin="10dp"
-            android:background="@drawable/stop"/>
+            android:background="@drawable/play"/>
 
         <Button
             android:id="@+id/next_song"
