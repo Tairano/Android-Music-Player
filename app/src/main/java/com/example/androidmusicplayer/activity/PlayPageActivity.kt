@@ -4,11 +4,13 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import com.example.androidmusicplayer.R
 import com.example.androidmusicplayer.struct.Play
 import com.example.androidmusicplayer.struct.PlayService
@@ -41,14 +43,14 @@ class PlayPageActivity : AppCompatActivity() {
             binder.getListener().removePlayButton(playButton)
             binder.getListener().removePlayTypeButton(playType)
         }
-
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_page)
         val intent = intent
-        play = intent.getSerializableExtra("play") as Play
+        play = intent.getSerializableExtra("play", Play::class.java)!!
         initPage()
     }
 

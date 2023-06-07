@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="40dp"
@@ -9,13 +8,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        tools:ignore="UselessParent">
 
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            tools:src="@drawable/logo" />
+            tools:src="@drawable/logo"
+            android:importantForAccessibility="no" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -24,22 +25,21 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/song_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="写给黄淮"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 android:layout_marginTop="7dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="NestedWeights" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/author"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:text="-邵帅"
                 android:textAlignment="viewStart"
                 android:textColor="#999999"
                 android:textSize="16sp"
@@ -58,14 +58,16 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
-                android:background="@drawable/stop"/>
+                android:background="@drawable/stop"
+                style="?android:attr/buttonBarButtonStyle" />
 
             <Button
-                android:id="@+id/button_stop"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="5dp"
-                android:background="@drawable/change_right"/>
+                android:id="@+id/menu"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/menu"
+                style="?android:attr/buttonBarButtonStyle" />
+
         </LinearLayout>
 
     </LinearLayout>

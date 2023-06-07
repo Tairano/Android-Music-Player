@@ -6,6 +6,7 @@ class Play(var name: String, var author: String): Serializable {
     lateinit var fileName : String
     lateinit var path : String
     var playLocation : Int = 0
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

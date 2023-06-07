@@ -3,7 +3,6 @@ package com.example.androidmusicplayer.struct
 import android.widget.Button
 import android.widget.TextView
 import com.example.androidmusicplayer.R
-import org.w3c.dom.Text
 
 
 val PLAY_STATUS = arrayOf(
@@ -23,7 +22,7 @@ class MyListener {
     private val nameList = ArrayList<TextView>()
     private val authorList = ArrayList<TextView>()
 
-    var playStatus = 0
+    var playStatus = 1
     var playTypeStatus = 2
     var name = ""
     var author = ""
