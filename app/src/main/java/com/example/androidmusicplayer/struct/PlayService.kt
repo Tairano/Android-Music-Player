@@ -33,6 +33,7 @@ open class PlayService : Service() {
     private lateinit var fd : AssetFileDescriptor
     private var path = ""
     private val playList = ArrayList<Play>()
+//    private val favourList = ArrayList<Play>()
     private var point = 0
     private val listener = MyListener()
 
@@ -133,6 +134,11 @@ open class PlayService : Service() {
         listener.refresh()
     }
 
+    fun changeFavourStatus(){
+        listener.favourStatus = (listener.favourStatus + 1) % 2
+        listener.refresh()
+    }
+
     override fun onBind(intent: Intent): IBinder {
         return binder
     }
@@ -217,6 +223,10 @@ open class PlayService : Service() {
             changePlayType()
         }
 
+        fun changeFavour(){
+            changeFavourStatus()
+        }
+
         fun forceNext(){
             forceNextSong()
         }
@@ -246,7 +256,7 @@ open class PlayService : Service() {
 
         fun addFavour(button: Button){
             listener.addFavourButton(button)
-            button.setOnClickListener { changePlay() }
+            button.setOnClickListener { changeFavour() }
         }
 
         fun removeFavour(button: Button){

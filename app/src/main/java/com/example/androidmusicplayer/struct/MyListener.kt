@@ -10,6 +10,11 @@ val PLAY_STATUS = arrayOf(
     1 to R.drawable.stop
 )
 
+val FAVOUR_STATUS = arrayOf(
+    0 to R.drawable.favour1,
+    0 to R.drawable.favour2
+)
+
 val PLAY_TYPE_STATUS = arrayOf(
     0 to R.drawable.one_recycle,
     1 to R.drawable.hole_recycle,
@@ -19,11 +24,12 @@ val PLAY_TYPE_STATUS = arrayOf(
 class MyListener {
     private val playButtonList = ArrayList<Button>()
     private val playTypeButtonList = ArrayList<Button>()
+    private val favourButtonList = ArrayList<TextView>()
     private val nameList = ArrayList<TextView>()
     private val authorList = ArrayList<TextView>()
-    private val favourList = ArrayList<TextView>()
 
     var playStatus = 1
+    var favourStatus = 0
     var playTypeStatus = 2
     var name = ""
     var author = ""
@@ -33,6 +39,7 @@ class MyListener {
         refreshPlayTypeButton()
         refreshNameText()
         refreshAuthorText()
+        refreshFavourButton()
     }
 
     private fun refreshPlayButton(){
@@ -44,6 +51,13 @@ class MyListener {
     private fun refreshPlayTypeButton(){
         for(i in playTypeButtonList){
             i.setBackgroundResource(PLAY_TYPE_STATUS[playTypeStatus].second)
+        }
+    }
+
+
+    private fun refreshFavourButton(){
+        for(i in favourButtonList){
+            i.setBackgroundResource(FAVOUR_STATUS[favourStatus].second)
         }
     }
 
@@ -76,11 +90,11 @@ class MyListener {
     }
 
     fun addFavourButton(button: Button){
-        favourList.add(button)
+        favourButtonList.add(button)
     }
 
     fun removeFavourButton(button: Button){
-        favourList.remove(button)
+        favourButtonList.remove(button)
     }
 
     fun addNameView(view: TextView){
