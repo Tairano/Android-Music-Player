@@ -17,7 +17,6 @@ import com.example.androidmusicplayer.struct.PlayService
 class RecentPlayedActivity : AppCompatActivity() {
     private lateinit var binder : PlayService.PlayBinder
     private lateinit var playList : ArrayList<Play>
-    private val content = this
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             binder = service as PlayService.PlayBinder
