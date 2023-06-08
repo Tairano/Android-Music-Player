@@ -13,7 +13,6 @@ import android.graphics.BitmapFactory
 import android.media.MediaPlayer
 import android.os.Binder
 import android.os.IBinder
-import android.util.Log
 import android.widget.Button
 import android.widget.RemoteViews
 import android.widget.TextView
@@ -33,7 +32,8 @@ open class PlayService : Service() {
     private lateinit var fd : AssetFileDescriptor
     private var path = ""
     private val playList = ArrayList<Play>()
-//    private val favourList = ArrayList<Play>()
+    private val favourList = ArrayList<Play>()
+    private val recentList = ArrayList<Play>()
     private var point = 0
     private val listener = MyListener()
 
@@ -105,7 +105,11 @@ open class PlayService : Service() {
     }
 
     private fun addInRecentPlayed(){
-        Log.d("music","good")
+        if(!recentList.contains(playList[point])){
+            recentList.add(playList[point])
+            if(recentList.size > 100)
+                recentList.removeLast()
+        }
     }
 
     private fun playInList(){
@@ -135,7 +139,14 @@ open class PlayService : Service() {
     }
 
     fun changeFavourStatus(){
-        listener.favourStatus = (listener.favourStatus + 1) % 2
+        if(favourList.contains(playList[point])){
+            favourList.remove(playList[point])
+            listener.favourStatus = 0
+        }
+        else{
+            favourList.add(playList[point])
+            listener.favourStatus = 1
+        }
         listener.refresh()
     }
 
@@ -159,6 +170,9 @@ open class PlayService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startForeground()
         player = MediaPlayer()
+        player.setOnCompletionListener(MediaPlayer.OnCompletionListener {
+            nextSong()
+        })
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -232,6 +246,12 @@ open class PlayService : Service() {
         }
 
         fun getListener(): MyListener = listener
+
+        fun getPlayer(): MediaPlayer = player
+
+        fun getRecentPlayed(): ArrayList<Play> = recentList
+
+        fun getFavourPlayed(): ArrayList<Play> = favourList
 
         fun addPlay(button: Button){
             listener.addPlayButton(button)
