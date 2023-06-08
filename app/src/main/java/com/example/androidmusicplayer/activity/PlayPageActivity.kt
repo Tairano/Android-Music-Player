@@ -10,10 +10,17 @@ import android.os.IBinder
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.example.androidmusicplayer.R
 import com.example.androidmusicplayer.struct.Play
 import com.example.androidmusicplayer.struct.PlayService
+
+val PLAY_TYPE_TOAST = arrayOf(
+    0 to "单曲循环",
+    1 to "顺序播放",
+    2 to "随机播放"
+)
 
 class PlayPageActivity : AppCompatActivity() {
     private var play : Play? = null
@@ -72,7 +79,10 @@ class PlayPageActivity : AppCompatActivity() {
         preSong.setOnClickListener { binder.pre() }
         nextSong.setOnClickListener { binder.forceNext() }
         playButton.setOnClickListener { binder.pause() }
-        playType.setOnClickListener { binder.changePlay() }
+        playType.setOnClickListener {
+            binder.changePlay()
+            Toast.makeText(this, "切换到" + PLAY_TYPE_TOAST[binder.getListener().playTypeStatus].second , Toast.LENGTH_SHORT).show()
+        }
 
         val intents = Intent(this, PlayService::class.java)
         bindService(intents, connection, Context.BIND_AUTO_CREATE)
