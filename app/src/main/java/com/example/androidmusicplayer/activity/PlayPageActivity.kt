@@ -16,7 +16,7 @@ import com.example.androidmusicplayer.struct.Play
 import com.example.androidmusicplayer.struct.PlayService
 
 class PlayPageActivity : AppCompatActivity() {
-    private lateinit var play : Play
+    private var play : Play? = null
     private lateinit var binder : PlayService.PlayBinder
 
     private lateinit var goBack : Button
@@ -34,7 +34,8 @@ class PlayPageActivity : AppCompatActivity() {
             binder.getListener().addNameView(songName)
             binder.getListener().addPlayButton(playButton)
             binder.getListener().addPlayTypeButton(playType)
-            binder.play(play)
+            play?.let { binder.play(it) }
+            binder.getListener().refresh()
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {

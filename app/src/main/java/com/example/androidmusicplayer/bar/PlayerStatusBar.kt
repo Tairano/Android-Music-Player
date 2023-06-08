@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import com.example.androidmusicplayer.R
+import com.example.androidmusicplayer.struct.Play
 import com.example.androidmusicplayer.struct.PlayService
 
 class PlayerStatusBar : Fragment() {
@@ -52,6 +53,10 @@ class PlayerStatusBar : Fragment() {
         playButton = layout.findViewById(R.id.button_play)
 
         playButton.setOnClickListener { binder.pause() }
+        val intent = Intent("PlayPageActivity")
+        intent.putExtra("play", Play("",""))
+        songName.setOnClickListener { startActivity(intent) }
+        author.setOnClickListener { startActivity(intent) }
 
         val intents = Intent(this.activity, PlayService::class.java)
         activity?.bindService(intents, connection, Context.BIND_AUTO_CREATE)

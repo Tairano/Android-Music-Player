@@ -88,13 +88,15 @@ open class PlayService : Service() {
     }
 
     fun addSong(play: Play){
-        point = if(!playList.contains(play)){
-            playList.add(play)
-            playList.size -1
-        } else {
-            playList.indexOf(play)
+        if(play.name!=""){
+            point = if(!playList.contains(play)){
+                playList.add(play)
+                playList.size -1
+            } else {
+                playList.indexOf(play)
+            }
+            playInList()
         }
-        playInList()
     }
 
     private fun addInRecentPlayed(){
