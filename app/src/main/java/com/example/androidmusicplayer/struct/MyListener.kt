@@ -21,6 +21,7 @@ class MyListener {
     private val playTypeButtonList = ArrayList<Button>()
     private val nameList = ArrayList<TextView>()
     private val authorList = ArrayList<TextView>()
+    private val favourList = ArrayList<TextView>()
 
     var playStatus = 1
     var playTypeStatus = 2
@@ -72,6 +73,14 @@ class MyListener {
 
     fun removePlayTypeButton(button: Button){
         playTypeButtonList.remove(button)
+    }
+
+    fun addFavourButton(button: Button){
+        favourList.add(button)
+    }
+
+    fun removeFavourButton(button: Button){
+        favourList.remove(button)
     }
 
     fun addNameView(view: TextView){

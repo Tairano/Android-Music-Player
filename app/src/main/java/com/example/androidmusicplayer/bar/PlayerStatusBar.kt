@@ -26,16 +26,16 @@ class PlayerStatusBar : Fragment() {
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             binder = service as PlayService.PlayBinder
-            binder.getListener().addAuthorView(author)
-            binder.getListener().addNameView(songName)
-            binder.getListener().addPlayButton(playButton)
-            binder.getListener().refresh()
+            binder.addAuthor(author)
+            binder.addName(songName)
+            binder.addPlay(playButton)
+            binder.refresh()
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
-            binder.getListener().removeAuthorView(author)
-            binder.getListener().removeNameView(songName)
-            binder.getListener().removePlayButton(playButton)
+            binder.removeAuthor(author)
+            binder.removeName(songName)
+            binder.removePlay(playButton)
         }
     }
 
@@ -52,7 +52,6 @@ class PlayerStatusBar : Fragment() {
         author  = layout.findViewById(R.id.author)
         playButton = layout.findViewById(R.id.button_play)
 
-        playButton.setOnClickListener { binder.pause() }
         val intent = Intent("PlayPageActivity")
         intent.putExtra("play", Play("",""))
         songName.setOnClickListener { startActivity(intent) }

@@ -15,7 +15,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/favour_red" >
+            android:background="@color/favour_red"
+            tools:ignore="UselessParent">
 
             <Button
                 android:id="@+id/go_back"
@@ -70,27 +71,44 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="80dp"
-            app:srcCompat="@mipmap/ic_launcher" />
+            app:srcCompat="@mipmap/ic_launcher"
+            android:importantForAccessibility="no" />
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"></LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal">
 
-        <ProgressBar
-            android:id="@+id/progressBar2"
-            style="?android:attr/progressBarStyleHorizontal"
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/add_in_favour"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/favour1"/>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:orientation="horizontal">
+
+        <SeekBar
+            android:id="@+id/seekBar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="20dp"
-            android:background="#FF0000"
-            android:backgroundTint="#FF0000" />
+            android:layout_height="wrap_content"
+            />
+
     </LinearLayout>
 
     <LinearLayout

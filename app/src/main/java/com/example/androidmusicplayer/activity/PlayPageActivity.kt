@@ -10,7 +10,6 @@ import android.os.IBinder
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.example.androidmusicplayer.R
 import com.example.androidmusicplayer.struct.Play
@@ -33,23 +32,26 @@ class PlayPageActivity : AppCompatActivity() {
     private lateinit var  nextSong : Button
     private lateinit var  playButton : Button
     private lateinit var  playType : Button
+    private lateinit var  favour : Button
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
             binder = service as PlayService.PlayBinder
-            binder.getListener().addAuthorView(author)
-            binder.getListener().addNameView(songName)
-            binder.getListener().addPlayButton(playButton)
-            binder.getListener().addPlayTypeButton(playType)
+            binder.addAuthor(author)
+            binder.addName(songName)
+            binder.addPlay(playButton)
+            binder.addTactic(playType)
+            binder.addFavour(favour)
             play?.let { binder.play(it) }
-            binder.getListener().refresh()
+            binder.refresh()
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
-            binder.getListener().removeAuthorView(author)
-            binder.getListener().removeNameView(songName)
-            binder.getListener().removePlayButton(playButton)
-            binder.getListener().removePlayTypeButton(playType)
+            binder.removeAuthor(author)
+            binder.removeName(songName)
+            binder.removePlay(playButton)
+            binder.removeTactic(playType)
+            binder.removeFavour(favour)
         }
     }
 
@@ -74,15 +76,11 @@ class PlayPageActivity : AppCompatActivity() {
         nextSong = findViewById(R.id.next_song)
         playButton = findViewById(R.id.play)
         playType = findViewById(R.id.play_tactic)
+        favour = findViewById(R.id.add_in_favour)
 
         goBack.setOnClickListener { this.finish() }
         preSong.setOnClickListener { binder.pre() }
         nextSong.setOnClickListener { binder.forceNext() }
-        playButton.setOnClickListener { binder.pause() }
-        playType.setOnClickListener {
-            binder.changePlay()
-            Toast.makeText(this, "切换到" + PLAY_TYPE_TOAST[binder.getListener().playTypeStatus].second , Toast.LENGTH_SHORT).show()
-        }
 
         val intents = Intent(this, PlayService::class.java)
         bindService(intents, connection, Context.BIND_AUTO_CREATE)

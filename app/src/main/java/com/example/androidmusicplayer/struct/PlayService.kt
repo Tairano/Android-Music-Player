@@ -14,10 +14,14 @@ import android.media.MediaPlayer
 import android.os.Binder
 import android.os.IBinder
 import android.util.Log
+import android.widget.Button
 import android.widget.RemoteViews
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.example.androidmusicplayer.MainActivity
 import com.example.androidmusicplayer.R
+import com.example.androidmusicplayer.activity.PLAY_TYPE_TOAST
 import kotlin.random.Random
 
 fun rand(max: Int, min: Int): Int = Random.nextInt(max - min + 1) + min
@@ -32,7 +36,7 @@ open class PlayService : Service() {
     private var point = 0
     private val listener = MyListener()
 
-    fun changeSongIndex(){
+    private fun changeSongIndex(){
         if(listener.playTypeStatus == 0){
             return
         }
@@ -218,6 +222,54 @@ open class PlayService : Service() {
         }
 
         fun getListener(): MyListener = listener
+
+        fun addPlay(button: Button){
+            listener.addPlayButton(button)
+            button.setOnClickListener { pause() }
+        }
+
+        fun removePlay(button: Button){
+            listener.removePlayButton(button)
+        }
+
+        fun addTactic(button: Button){
+            listener.addPlayTypeButton(button)
+            button.setOnClickListener {
+                changePlay()
+                Toast.makeText(baseContext, "切换到" + PLAY_TYPE_TOAST[binder.getListener().playTypeStatus].second , Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        fun removeTactic(button: Button){
+            listener.removePlayTypeButton(button)
+        }
+
+        fun addFavour(button: Button){
+            listener.addFavourButton(button)
+            button.setOnClickListener { changePlay() }
+        }
+
+        fun removeFavour(button: Button){
+            listener.removeFavourButton(button)
+        }
+
+        fun addName(view: TextView){
+            listener.addNameView(view)
+        }
+
+        fun removeName(view: TextView){
+            listener.removeNameView(view)
+        }
+
+        fun addAuthor(view: TextView){
+            listener.addAuthorView(view)
+        }
+
+        fun removeAuthor(view: TextView){
+            listener.removeAuthorView(view)
+        }
+
+        fun refresh() = listener.refresh()
     }
 
     inner class MyBroadcastReceiver : BroadcastReceiver() {
