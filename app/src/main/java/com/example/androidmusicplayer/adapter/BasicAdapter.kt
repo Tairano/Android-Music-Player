@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.androidmusicplayer.R
 import com.example.androidmusicplayer.struct.BasicList
 
-class BasicAdapter(private val dataSet: ArrayList<BasicList>, val context: Fragment) :
+class BasicAdapter(private val dataSet: ArrayList<BasicList>, val context: Fragment, val status: Int) :
     RecyclerView.Adapter<BasicAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -38,7 +38,12 @@ class BasicAdapter(private val dataSet: ArrayList<BasicList>, val context: Fragm
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val playList = dataSet[position]
-        holder.listImage.setImageResource(playList.imgId)
+        if(status == 3){
+            holder.listImage.setImageResource(R.drawable.folder)
+        }
+        else{
+            holder.listImage.setImageBitmap(playList.getFirstSongCover())
+        }
         holder.playListName.text = playList.str
         holder.context.text = playList.getSize().toString() + "首     " + playList.content
     }

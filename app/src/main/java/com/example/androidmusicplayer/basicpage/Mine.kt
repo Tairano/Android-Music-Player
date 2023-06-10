@@ -14,6 +14,7 @@ import com.example.androidmusicplayer.struct.PlayList
 import com.example.androidmusicplayer.R
 import com.example.androidmusicplayer.adapter.CustomAdapter
 import com.example.androidmusicplayer.struct.PlayService
+import com.example.androidmusicplayer.utils.DBHelper
 
 class Mine : Fragment() {
 
@@ -35,32 +36,8 @@ class Mine : Fragment() {
     }
 
     private fun initPlayList(layout: View){
-        val playList = ArrayList<PlayList>()
-        var list = PlayList("我的喜欢", R.raw.logo)
-        var play = Play("写给黄淮","邵帅")
-        list.add(play)
-        playList.add(list)
-        list = PlayList("海边的少年", R.raw.logo)
-        play = Play("春天里","汪峰")
-        list.add(play)
-        play = Play("少年","佚名")
-        list.add(play)
-        playList.add(list)
-        list = PlayList("民谣", R.raw.logo)
-        play = Play("董小姐","宋东野")
-        list.add(play)
-        play = Play("斑马，斑马","宋东野")
-        list.add(play)
-        play = Play("郭援朝","宋东野")
-        list.add(play)
-        playList.add(list)
-        list = PlayList("摇滚", R.raw.logo)
-        list.add(play)
-        play = Play("活着","郝帅")
-        list.add(play)
-        play = Play("倔强","五月天")
-        list.add(play)
-        playList.add(list)
+        val helper = DBHelper(layout.context)
+        val playList = helper.getPlayLists()
         val recyclerView : RecyclerView = layout.findViewById(R.id.my_play_list)
         val listAdapter = CustomAdapter(playList,this)
         recyclerView.adapter = listAdapter

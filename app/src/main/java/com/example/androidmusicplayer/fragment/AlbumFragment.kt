@@ -31,16 +31,16 @@ class AlbumFragment : Fragment() {
 
     private fun initPage(){
         val albumList = ArrayList<BasicList>()
-        var list = Album("写给黄淮","邵帅", R.mipmap.ic_launcher ,"2019.1.3")
+        var list = Album("写给黄淮","邵帅","2019.1.3")
         var play = Play("写给黄淮","邵帅")
         list.add(play)
         albumList.add(list)
-        list = Album("写给黄淮","邵帅", R.mipmap.ic_launcher, "2019.1.3")
+        list = Album("写给黄淮","邵帅", "2019.1.3")
         play = Play("写给黄淮","邵帅")
         list.add(play)
         albumList.add(list)
         val recyclerView : RecyclerView = layout.findViewById(R.id.recyclerView)
-        val listAdapter = BasicAdapter(albumList,this)
+        val listAdapter = BasicAdapter(albumList,this, 2)
         recyclerView.adapter = listAdapter
     }
 }

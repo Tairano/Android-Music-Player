@@ -39,7 +39,12 @@ class CustomAdapter(private val dataSet: ArrayList<PlayList>, val context: Fragm
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val playList = dataSet[position]
-        holder.listImage.setImageResource(playList.imageId)
+        if(playList.getFirstSongCover() != null)
+            holder.listImage.setImageBitmap(playList.getFirstSongCover())
+        else{
+            holder.listImage.setImageResource(R.drawable.logo)
+        }
+
         holder.playListName.text = playList.name
         holder.songNumber.text = playList.getSize().toString() + "首"
     }

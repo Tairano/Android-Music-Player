@@ -86,6 +86,14 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         db.close()
     }
 
+    fun removeSongListAll(){
+        val db = readableDatabase
+        val selection = null
+        val selectionArgs = null
+        db.delete(PLAY_LIST, selection, selectionArgs)
+        db.close()
+    }
+
     fun removeSongInList(playName: String, listName: String){
         val db = readableDatabase
         val selection = "name = ? AND list_id = ?"
@@ -141,7 +149,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
                 val name = it.getString(it.getColumnIndex("name"))
                 val comment = it.getString(it.getColumnIndex("comment"))
                 val timestamp = it.getString(it.getColumnIndex("timestamp"))
-                val list = PlayList(name, -1)
+                val list = PlayList(name)
                 list.comment = comment
                 list.timeStamp = timestamp
                 data.add(list)

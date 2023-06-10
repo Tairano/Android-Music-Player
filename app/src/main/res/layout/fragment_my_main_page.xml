@@ -16,6 +16,7 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:layout_marginTop="30dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:ignore="MissingConstraints">
@@ -36,7 +37,7 @@
                         android:id="@+id/user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Jethrooo"
+                        android:text="A BOY"
                         android:textColor="#3d465a"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -46,7 +47,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="131 关注 asdasd  asdasd "
+                        android:text="19 关注  18 粉丝  Lv.8"
                         android:textColor="#9399a4"
                         android:textSize="15sp" />
                 </LinearLayout>
@@ -61,7 +62,7 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/logo" />
+                        android:src="@drawable/avatar" />
 
                 </LinearLayout>
 
@@ -174,7 +175,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="23dp"
-                        android:text="1020首，x首已下载"
+                        android:text="1020首，0首已下载"
                         android:textColor="#808080" />
                 </LinearLayout>
 

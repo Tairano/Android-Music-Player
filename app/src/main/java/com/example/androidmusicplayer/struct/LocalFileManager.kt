@@ -2,12 +2,14 @@ package com.example.androidmusicplayer.struct
 
 import android.content.Context
 import android.content.res.AssetManager
-import com.example.androidmusicplayer.R
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.MediaMetadataRetriever
+import android.util.Log
 import java.io.File
-import kotlin.math.sin
 
 class LocalFileManager {
-    val list = PlayList("localMusic",R.drawable.logo)
+    val list = PlayList("localMusic")
     val fileList = ArrayList<BasicList>()
     val singerList = ArrayList<BasicList>()
 
@@ -25,7 +27,7 @@ class LocalFileManager {
 
     private fun searchFile(path: String){
         val paths = assetManager.list(path)
-        val bList = BasicList(path.split("/").last(), path, R.drawable.folder)
+        val bList = BasicList(path.split("/").last(), path)
         var check = false
         if (paths != null) {
             for(i in paths){
@@ -42,6 +44,7 @@ class LocalFileManager {
                     val play = Play(parm1,parm2)
                     play.path = "$path/$i"
                     play.fileName = i
+                    play.bitMap = getBitMap(file.path)
                     bList.add(play)
                     list.add(play)
                     if( params.size > 1){
@@ -57,13 +60,30 @@ class LocalFileManager {
         }
     }
 
+    private fun getBitMap(path: String): Bitmap? {
+        val assetFileDescriptor = assetManager.openFd(path)
+        val assetFilePath = assetFileDescriptor.fileDescriptor
+        val retriever = MediaMetadataRetriever()
+        retriever.setDataSource(assetFilePath)
+        val embeddedArtwork = retriever.embeddedPicture
+        return if (embeddedArtwork != null) {
+            val bitmap = BitmapFactory.decodeByteArray(embeddedArtwork, 0, embeddedArtwork.size)
+            Log.d("what?", "fuck")
+            retriever.release()
+            bitmap
+        } else {
+            retriever.release()
+            null
+        }
+    }
+
     private fun putInSinger(author: String): BasicList{
         for(i in singerList){
             if(i.str == author){
                 return i
             }
         }
-        singerList.add(BasicList(author, "",R.drawable.logo))
+        singerList.add(BasicList(author, ""))
         return singerList.last()
     }
 }

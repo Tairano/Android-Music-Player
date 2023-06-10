@@ -1,10 +1,12 @@
 package com.example.androidmusicplayer.struct
 
+import android.graphics.Bitmap
 import java.io.Serializable
 
 class Play(var name: String, var author: String): Serializable {
     lateinit var fileName : String
     lateinit var path : String
+    var bitMap : Bitmap? = null
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

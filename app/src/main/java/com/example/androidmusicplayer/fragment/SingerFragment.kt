@@ -31,7 +31,7 @@ class SingerFragment : Fragment() {
         val intent = activity?.intent
         val playList = intent?.getSerializableExtra("singerList") as ArrayList<BasicList>
         val recyclerView : RecyclerView = layout.findViewById(R.id.recyclerView)
-        val listAdapter = BasicAdapter(playList,this)
+        val listAdapter = BasicAdapter(playList,this, 0)
         recyclerView.adapter = listAdapter
     }
 }

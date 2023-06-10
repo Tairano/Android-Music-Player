@@ -1,6 +1,10 @@
 package com.example.androidmusicplayer.struct
 
-class PlayList (val name: String, val imageId: Int): BasicList(name, "", imageId) {
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.media.MediaMetadataRetriever
+
+class PlayList (val name: String): BasicList(name, "") {
     private val list = ArrayList<Play>()
 
     var timeStamp : String = ""

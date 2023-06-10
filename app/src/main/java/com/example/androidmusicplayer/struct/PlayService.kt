@@ -9,10 +9,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.AssetFileDescriptor
 import android.content.res.AssetManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.MediaMetadataRetriever
 import android.media.MediaPlayer
 import android.os.Binder
 import android.os.IBinder
+import android.util.Log
 import android.widget.Button
 import android.widget.RemoteViews
 import android.widget.TextView
@@ -22,6 +25,7 @@ import com.example.androidmusicplayer.MainActivity
 import com.example.androidmusicplayer.R
 import com.example.androidmusicplayer.activity.PLAY_TYPE_TOAST
 import com.example.androidmusicplayer.utils.DBHelper
+import java.io.File
 import kotlin.random.Random
 
 fun rand(max: Int, min: Int): Int = Random.nextInt(max - min + 1) + min

@@ -33,7 +33,7 @@ class FolderFragment : Fragment() {
         val intent = activity?.intent
         val folderList = intent?.getSerializableExtra("fileList") as ArrayList<BasicList>
         val recyclerView : RecyclerView = layout.findViewById(R.id.recyclerView)
-        val listAdapter = BasicAdapter(folderList,this)
+        val listAdapter = BasicAdapter(folderList,this, 3)
         recyclerView.adapter = listAdapter
     }
 
