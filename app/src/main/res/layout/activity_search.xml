@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="#FF0000"
+    android:orientation="vertical"
+    tools:context=".activity.SearchActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/favour_red">
+
+        <Button
+            android:id="@+id/go_back"
+            style="@style/CardButton"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/go_back"
+            android:backgroundTintMode="src_over" />
+
+
+        <EditText
+            android:id="@+id/inputText"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="30dp"
+            android:background="@drawable/search_edit_bar"
+            android:layout_marginEnd="10dp"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/search"
+            style="@style/CardButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/search"
+            android:backgroundTintMode="src_over" />
+
+        <Space
+            android:layout_width="30dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchResultView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:layoutManager="LinearLayoutManager" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/PlayerStatusBar"
+        android:name="com.example.androidmusicplayer.bar.PlayerStatusBar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+</LinearLayout>

@@ -21,19 +21,20 @@ import androidx.core.app.NotificationCompat
 import com.example.androidmusicplayer.MainActivity
 import com.example.androidmusicplayer.R
 import com.example.androidmusicplayer.activity.PLAY_TYPE_TOAST
+import com.example.androidmusicplayer.utils.DBHelper
 import kotlin.random.Random
 
 fun rand(max: Int, min: Int): Int = Random.nextInt(max - min + 1) + min
 
 open class PlayService : Service() {
     private val binder = PlayBinder()
+    private val helper = DBHelper(this)
     private lateinit var player : MediaPlayer
     private lateinit var assetManager : AssetManager
     private lateinit var fd : AssetFileDescriptor
     private var path = ""
     private val playList = ArrayList<Play>()
-    private val favourList = ArrayList<Play>()
-    private val recentList = ArrayList<Play>()
+    private lateinit var favourList : ArrayList<Play>
     private var point = 0
     private val listener = MyListener()
 
@@ -105,11 +106,7 @@ open class PlayService : Service() {
     }
 
     private fun addInRecentPlayed(){
-        if(!recentList.contains(playList[point])){
-            recentList.add(playList[point])
-            if(recentList.size > 100)
-                recentList.removeLast()
-        }
+        helper.insertSongInRecent(playList[point])
     }
 
     private fun playInList(){
@@ -249,7 +246,7 @@ open class PlayService : Service() {
 
         fun getPlayer(): MediaPlayer = player
 
-        fun getRecentPlayed(): ArrayList<Play> = recentList
+        fun getRecentPlayed(): ArrayList<Play> = helper.getRecentPlayed()
 
         fun getFavourPlayed(): ArrayList<Play> = favourList
 

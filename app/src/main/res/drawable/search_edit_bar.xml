@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/favour_red" /> <!-- 设置填充颜色为白色 -->
+    <stroke android:color="#FFFFFF" android:width="1dp"/> <!-- 设置边框颜色为白色 -->
+    <corners android:radius="8dp" /> <!-- 设置圆角半径 -->
+</shape>

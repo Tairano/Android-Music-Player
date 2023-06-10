@@ -9,7 +9,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.androidmusicplayer.basicpage.Community
 import com.example.androidmusicplayer.basicpage.Concern
 import com.example.androidmusicplayer.basicpage.Mine
-import com.example.androidmusicplayer.struct.Play
 import com.example.androidmusicplayer.struct.PlayService
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -19,8 +18,6 @@ val fragments = arrayOf(
     "关注" to Concern(),
     "社区" to Community()
 )
-
-val localList: ArrayList<Play> = ArrayList()
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewPager2: ViewPager2

@@ -5,7 +5,6 @@ import java.io.Serializable
 class Play(var name: String, var author: String): Serializable {
     lateinit var fileName : String
     lateinit var path : String
-    var playLocation : Int = 0
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -17,7 +16,6 @@ class Play(var name: String, var author: String): Serializable {
         if (author != other.author) return false
         if (fileName != other.fileName) return false
         if (path != other.path) return false
-        if (playLocation != other.playLocation) return false
 
         return true
     }
@@ -27,7 +25,6 @@ class Play(var name: String, var author: String): Serializable {
         result = 31 * result + author.hashCode()
         result = 31 * result + fileName.hashCode()
         result = 31 * result + path.hashCode()
-        result = 31 * result + playLocation
         return result
     }
 

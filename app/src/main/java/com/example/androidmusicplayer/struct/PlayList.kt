@@ -3,8 +3,8 @@ package com.example.androidmusicplayer.struct
 class PlayList (val name: String, val imageId: Int): BasicList(name, "", imageId) {
     private val list = ArrayList<Play>()
 
-    val timeStamp : String = "2023年5月28日"
-    var comment : String = "希望能天天开心"
+    var timeStamp : String = ""
+    var comment : String = ""
 
     fun searchToList(str: String): ArrayList<Play> {
         if(name.isEmpty())

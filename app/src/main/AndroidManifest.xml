@@ -22,10 +22,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidMusicPlayer"
         tools:targetApi="31">
+        <activity
+            android:name=".activity.SearchActivity"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="SearchActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <service
             android:name=".struct.PlayService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <activity
             android:name=".activity.ListActivity"
