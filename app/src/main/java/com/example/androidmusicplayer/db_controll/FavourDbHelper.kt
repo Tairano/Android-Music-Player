@@ -5,16 +5,16 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import android.graphics.Bitmap
-import com.example.androidmusicplayer.media.byteArrayToBitmap
+import android.database.sqlite.SQLiteOpenHelper
 import com.example.androidmusicplayer.struct.Play
-import java.io.ByteArrayOutputStream
 
-class FavourDbHelper (context: Context) : DBHelper(context) {
+class FavourDbHelper (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
+        private const val DATABASE_VERSION = 2
+        private const val DATABASE_NAME = "favour_base.db"
+
         const val TABLE_NAME = "favour_base"
 
-        
         const val COLUMN1 = "id"
         const val COLUMN1_TYPE = "INTEGER PRIMARY KEY"
 
@@ -32,6 +32,13 @@ class FavourDbHelper (context: Context) : DBHelper(context) {
 
         const val COLUMN6 = "bitmap"
         const val COLUMN6_TYPE = "BLOB"
+    }
+
+    private fun insertData(values: ContentValues, database: String) {
+        val db = writableDatabase
+        val conflictAlgorithm = SQLiteDatabase.CONFLICT_REPLACE
+        db.insertWithOnConflict(database, null, values, conflictAlgorithm)
+        db.close()
     }
 
     override fun onCreate(db: SQLiteDatabase?) {

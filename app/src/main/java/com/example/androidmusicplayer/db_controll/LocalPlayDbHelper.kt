@@ -5,6 +5,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
 import android.graphics.Bitmap
 import com.example.androidmusicplayer.R
 import com.example.androidmusicplayer.media.drawableToBitmap
@@ -12,8 +13,11 @@ import com.example.androidmusicplayer.struct.LocalStorage
 import com.example.androidmusicplayer.struct.Play
 import java.io.ByteArrayOutputStream
 
-class LocalPlayDbHelper (val context: Context) : DBHelper(context) {
+class LocalPlayDbHelper (val context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
+        private const val DATABASE_VERSION = 2
+        private const val DATABASE_NAME = "play_base.db"
+
         const val TABLE_NAME = "play_base"
 
         const val COLUMN1 = "id"
@@ -37,6 +41,13 @@ class LocalPlayDbHelper (val context: Context) : DBHelper(context) {
         const val COLUMN7 = "folder_name"
         const val COLUMN7_TYPE = "TEXT"
 
+    }
+
+    private fun insertData(values: ContentValues, database: String) {
+        val db = writableDatabase
+        val conflictAlgorithm = SQLiteDatabase.CONFLICT_REPLACE
+        db.insertWithOnConflict(database, null, values, conflictAlgorithm)
+        db.close()
     }
 
     override fun onCreate(db: SQLiteDatabase?) {

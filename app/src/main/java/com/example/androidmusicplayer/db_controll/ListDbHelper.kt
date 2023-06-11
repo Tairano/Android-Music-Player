@@ -5,14 +5,18 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
 import android.graphics.Bitmap
 import com.example.androidmusicplayer.media.byteArrayToBitmap
 import com.example.androidmusicplayer.struct.PlayList
 import java.io.ByteArrayOutputStream
 
 
-class ListDbHelper(val context: Context) : DBHelper(context) {
+class ListDbHelper(val context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
+        private const val DATABASE_VERSION = 2
+        private const val DATABASE_NAME = "play_list_base.db"
+
         const val TABLE_NAME = "play_list_base"
 
         const val COLUMN1 = "id"
@@ -29,6 +33,13 @@ class ListDbHelper(val context: Context) : DBHelper(context) {
 
         const val COLUMN5 = "user"
         const val COLUMN5_TYPE = "TEXT"
+    }
+
+    private fun insertData(values: ContentValues, database: String) {
+        val db = writableDatabase
+        val conflictAlgorithm = SQLiteDatabase.CONFLICT_REPLACE
+        db.insertWithOnConflict(database, null, values, conflictAlgorithm)
+        db.close()
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
