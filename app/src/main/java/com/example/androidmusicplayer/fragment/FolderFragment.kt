@@ -7,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidmusicplayer.R
-import com.example.androidmusicplayer.adapter.BasicAdapter
-import com.example.androidmusicplayer.struct.BasicList
-import com.example.androidmusicplayer.struct.Folder
-import com.example.androidmusicplayer.struct.Play
+import com.example.androidmusicplayer.adapter.LocalAdapter
+import com.example.androidmusicplayer.db_controll.LocalPlayDbHelper
 
 class FolderFragment : Fragment() {
     private lateinit var layout: View
@@ -30,10 +28,10 @@ class FolderFragment : Fragment() {
     }
 
     private fun initPage(){
-        val intent = activity?.intent
-        val folderList = intent?.getSerializableExtra("fileList") as ArrayList<BasicList>
+        val helper = LocalPlayDbHelper(layout.context)
+        val groupList = helper.queryColumnInFolder()
         val recyclerView : RecyclerView = layout.findViewById(R.id.recyclerView)
-        val listAdapter = BasicAdapter(folderList,this, 3)
+        val listAdapter = LocalAdapter(groupList,this)
         recyclerView.adapter = listAdapter
     }
 

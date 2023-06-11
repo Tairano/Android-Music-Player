@@ -8,14 +8,16 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.example.androidmusicplayer.R
-import com.example.androidmusicplayer.struct.Play
-import com.example.androidmusicplayer.struct.PlayService
+import com.example.androidmusicplayer.db_controll.LocalPlayDbHelper
+import com.example.androidmusicplayer.db_controll.RecentDbHelper
+import com.example.androidmusicplayer.media.PlayService
 
 val PLAY_TYPE_TOAST = arrayOf(
     0 to "单曲循环",
@@ -24,7 +26,9 @@ val PLAY_TYPE_TOAST = arrayOf(
 )
 
 class PlayPageActivity : AppCompatActivity() {
-    private var play : Play? = null
+    private val helper = LocalPlayDbHelper(this)
+    private val recentHelper = RecentDbHelper(this)
+    private lateinit var playPath : String
     private lateinit var binder : PlayService.PlayBinder
 
     private lateinit var goBack : Button
@@ -43,13 +47,20 @@ class PlayPageActivity : AppCompatActivity() {
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            Log.d("fuckk","?")
             binder = service as PlayService.PlayBinder
+            if(playPath != ""){
+                val play = helper.getByPath(playPath)
+                binder.play(play)
+                if (play != null) {
+//                    recentHelper.insert(play)
+                }
+            }
             binder.addAuthor(author)
             binder.addName(songName)
             binder.addPlay(playButton)
             binder.addTactic(playType)
             binder.addFavour(favour)
-            play?.let { binder.play(it) }
             val player =  binder.getPlayer()
             seekBar.max = player.duration
             lengthView.text = formatDuration(seekBar.max)
@@ -98,7 +109,7 @@ class PlayPageActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play_page)
         val intent = intent
-        play = intent.getSerializableExtra("play", Play::class.java)!!
+        playPath = intent.getStringExtra("playPath").toString()
         initPage()
     }
 

@@ -1,7 +1,7 @@
 package com.example.androidmusicplayer.activity
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -15,10 +15,8 @@ import com.example.androidmusicplayer.fragment.AlbumFragment
 import com.example.androidmusicplayer.fragment.FolderFragment
 import com.example.androidmusicplayer.fragment.SingerFragment
 import com.example.androidmusicplayer.fragment.SingleFragment
-import com.example.androidmusicplayer.struct.LocalFileManager
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import java.io.File
 
 
 val fragments = arrayOf(
@@ -36,12 +34,6 @@ class LocalMusicActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_local_music)
         initPage()
-        val manager = LocalFileManager()
-        manager.searchLoadMusic(this)
-        val intent = intent
-        intent.putExtra("fileList",manager.fileList)
-        intent.putExtra("localMusic",manager.list)
-        intent.putExtra("singerList",manager.singerList)
     }
 
     private fun initPage() {
@@ -50,6 +42,7 @@ class LocalMusicActivity : AppCompatActivity() {
         val adapter = LocalMusicActivityAdapter(this)
         val goBack : Button = findViewById(R.id.go_back)
         val option : Button = findViewById(R.id.option)
+        val search : Button = findViewById(R.id.search)
         val popMenu = PopupMenu(this,option)
         popMenu.inflate(R.menu.local_music_menu)
         popMenu.setOnMenuItemClickListener{ item ->
@@ -66,11 +59,11 @@ class LocalMusicActivity : AppCompatActivity() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = fragments[position].first
         }.attach()
-        goBack.setOnClickListener {
-            finish()
-        }
-        option.setOnClickListener {
-            popMenu.show()
+        goBack.setOnClickListener { finish() }
+        option.setOnClickListener { popMenu.show() }
+        search.setOnClickListener {
+            val intent = Intent(this, SearchActivity::class.java)
+            startActivity(intent)
         }
     }
 

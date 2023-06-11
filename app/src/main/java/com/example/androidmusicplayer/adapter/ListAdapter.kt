@@ -10,15 +10,17 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidmusicplayer.R
-import com.example.androidmusicplayer.struct.BasicList
+import com.example.androidmusicplayer.media.byteArrayToBitmap
+import com.example.androidmusicplayer.struct.PlayList
 
-class BasicAdapter(private val dataSet: ArrayList<BasicList>, val context: Fragment, val status: Int) :
-    RecyclerView.Adapter<BasicAdapter.ViewHolder>() {
+class ListAdapter(private val dataSet: ArrayList<PlayList>, val context: Fragment) :
+    RecyclerView.Adapter<ListAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val listImage : ImageView = view.findViewById(R.id.list_image)
-        val playListName : TextView = view.findViewById(R.id.name)
-        val context : TextView = view.findViewById(R.id.context)
+        val image : ImageView = view.findViewById(R.id.image)
+        val name : TextView = view.findViewById(R.id.name)
+        val comment : TextView = view.findViewById(R.id.comment)
+        val size : TextView = view.findViewById(R.id.size)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,14 +40,13 @@ class BasicAdapter(private val dataSet: ArrayList<BasicList>, val context: Fragm
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val playList = dataSet[position]
-        if(status == 3){
-            holder.listImage.setImageResource(R.drawable.folder)
-        }
-        else{
-            holder.listImage.setImageBitmap(playList.getFirstSongCover())
-        }
-        holder.playListName.text = playList.str
-        holder.context.text = playList.getSize().toString() + "首     " + playList.content
+        if(playList.bitmap != null)
+            holder.image.setImageBitmap(byteArrayToBitmap(playList.bitmap))
+        else
+            holder.image.setImageResource(R.drawable.logo)
+        holder.name.text = playList.name
+        holder.comment.text = playList.comment
+        holder.size.text = playList.size.toString() + "首     "
     }
 
     override fun getItemCount() = dataSet.size

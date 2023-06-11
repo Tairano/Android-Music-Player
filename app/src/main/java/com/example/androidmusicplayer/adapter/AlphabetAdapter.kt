@@ -61,8 +61,8 @@ class AlphabetAdapter (private val dataSet: ArrayList<Play>, val context: Fragme
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val play = dataSet[position]
         holder.index.text = (position + 1).toString()
-        holder.author.text = "-" + play.author
-        holder.name.text = play.name
+//        holder.author.text = "-" + play.author
+//        holder.name.text = play.name
         holder.more.setOnClickListener {
             popUpMenu(holder.more)
         }

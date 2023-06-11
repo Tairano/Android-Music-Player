@@ -7,19 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import androidx.fragment.app.Fragment
-import com.example.androidmusicplayer.struct.PlayList
+import androidx.recyclerview.widget.RecyclerView
 import com.example.androidmusicplayer.R
+import com.example.androidmusicplayer.media.byteArrayToBitmap
+import com.example.androidmusicplayer.struct.PlayList
 
-
-class CustomAdapter(private val dataSet: ArrayList<PlayList>, val context: Fragment) :
-    RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class PlayListAdapter(private val dataSet: ArrayList<PlayList>, val context: Fragment) :
+    RecyclerView.Adapter<PlayListAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val listImage : ImageView = view.findViewById(R.id.list_image)
-        val playListName : TextView = view.findViewById(R.id.name)
-        val songNumber : TextView = view.findViewById(R.id.context)
+        val image : ImageView = view.findViewById(R.id.image)
+        val name : TextView = view.findViewById(R.id.name)
+        val comment : TextView = view.findViewById(R.id.comment)
+        val size : TextView = view.findViewById(R.id.size)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,7 +30,7 @@ class CustomAdapter(private val dataSet: ArrayList<PlayList>, val context: Fragm
         viewHolder.itemView.setOnClickListener {
             val position = viewHolder.adapterPosition
             val playList = dataSet[position]
-            val intent = Intent("PlayListActivity")
+            val intent = Intent("ListActivity")
             intent.putExtra("list",playList)
             context.startActivity(intent)
         }
@@ -39,14 +40,13 @@ class CustomAdapter(private val dataSet: ArrayList<PlayList>, val context: Fragm
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val playList = dataSet[position]
-        if(playList.getFirstSongCover() != null)
-            holder.listImage.setImageBitmap(playList.getFirstSongCover())
-        else{
-            holder.listImage.setImageResource(R.drawable.logo)
-        }
-
-        holder.playListName.text = playList.name
-        holder.songNumber.text = playList.getSize().toString() + "首"
+        if(playList.bitmap != null)
+            holder.image.setImageBitmap(byteArrayToBitmap(playList.bitmap))
+        else
+            holder.image.setImageResource(R.drawable.logo)
+        holder.name.text = playList.name
+        holder.comment.text = playList.comment
+        holder.size.text = playList.size.toString() + "首     "
     }
 
     override fun getItemCount() = dataSet.size

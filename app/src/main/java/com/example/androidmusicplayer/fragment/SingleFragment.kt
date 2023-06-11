@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidmusicplayer.R
-import com.example.androidmusicplayer.adapter.AlphabetAdapter
-import com.example.androidmusicplayer.struct.PlayList
+import com.example.androidmusicplayer.adapter.PlayAdapter
+import com.example.androidmusicplayer.db_controll.LocalPlayDbHelper
 
 class SingleFragment : Fragment() {
     private lateinit var layout: View
@@ -28,11 +28,10 @@ class SingleFragment : Fragment() {
     }
 
     private fun initPage(){
-        val intent = activity?.intent
-        val playList = intent?.getSerializableExtra("localMusic") as PlayList
-        playList.sortIt()
+        val helper = LocalPlayDbHelper(layout.context)
+        val playList = helper.query(null)
         val recyclerView : RecyclerView = layout.findViewById(R.id.recyclerView)
-        val listAdapter = AlphabetAdapter(playList.getList(),this)
+        val listAdapter = PlayAdapter(playList,layout.context)
         recyclerView.adapter = listAdapter
     }
 }

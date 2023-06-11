@@ -12,14 +12,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.androidmusicplayer.R
 import com.example.androidmusicplayer.adapter.PlayAdapter
 import com.example.androidmusicplayer.struct.Play
-import com.example.androidmusicplayer.struct.PlayService
 
 class RecentPlayedActivity : AppCompatActivity() {
-    private lateinit var binder : PlayService.PlayBinder
+//    private lateinit var binder : PlayService.PlayBinder
     private lateinit var playList : ArrayList<Play>
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            binder = service as PlayService.PlayBinder
+//            binder = service as PlayService.PlayBinder
             initPlayList()
         }
 
@@ -32,12 +31,12 @@ class RecentPlayedActivity : AppCompatActivity() {
         setContentView(R.layout.activity_recent_played)
         val goBack : Button = findViewById(R.id.go_back)
         goBack.setOnClickListener { finish() }
-        val intents = Intent(this, PlayService::class.java)
-        bindService(intents, connection, Context.BIND_AUTO_CREATE)
+//        val intents = Intent(this, PlayService::class.java)
+//        bindService(intents, connection, Context.BIND_AUTO_CREATE)
     }
 
     private fun initPlayList(){
-        playList = binder.getRecentPlayed()
+//        playList = binder.getRecentPlayed()
         val recyclerView : RecyclerView = findViewById(R.id.recentPlayedRecycleView)
         val listAdapter = PlayAdapter(playList,this)
         recyclerView.adapter = listAdapter

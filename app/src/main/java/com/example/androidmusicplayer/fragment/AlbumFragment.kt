@@ -7,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidmusicplayer.R
-import com.example.androidmusicplayer.adapter.BasicAdapter
-import com.example.androidmusicplayer.struct.Album
-import com.example.androidmusicplayer.struct.BasicList
-import com.example.androidmusicplayer.struct.Play
+import com.example.androidmusicplayer.adapter.LocalAdapter
+import com.example.androidmusicplayer.db_controll.LocalPlayDbHelper
 
 class AlbumFragment : Fragment() {
     private lateinit var layout: View
@@ -30,17 +28,10 @@ class AlbumFragment : Fragment() {
     }
 
     private fun initPage(){
-        val albumList = ArrayList<BasicList>()
-        var list = Album("写给黄淮","邵帅","2019.1.3")
-        var play = Play("写给黄淮","邵帅")
-        list.add(play)
-        albumList.add(list)
-        list = Album("写给黄淮","邵帅", "2019.1.3")
-        play = Play("写给黄淮","邵帅")
-        list.add(play)
-        albumList.add(list)
+        val helper = LocalPlayDbHelper(layout.context)
+        val groupList = helper.queryColumnInAlbum()
         val recyclerView : RecyclerView = layout.findViewById(R.id.recyclerView)
-        val listAdapter = BasicAdapter(albumList,this, 2)
+        val listAdapter = LocalAdapter(groupList,this)
         recyclerView.adapter = listAdapter
     }
 }

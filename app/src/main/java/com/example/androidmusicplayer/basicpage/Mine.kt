@@ -8,13 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
-import androidx.recyclerview.widget.RecyclerView
-import com.example.androidmusicplayer.struct.Play
-import com.example.androidmusicplayer.struct.PlayList
 import com.example.androidmusicplayer.R
-import com.example.androidmusicplayer.adapter.CustomAdapter
-import com.example.androidmusicplayer.struct.PlayService
-import com.example.androidmusicplayer.utils.DBHelper
 
 class Mine : Fragment() {
 
@@ -36,11 +30,11 @@ class Mine : Fragment() {
     }
 
     private fun initPlayList(layout: View){
-        val helper = DBHelper(layout.context)
-        val playList = helper.getPlayLists()
-        val recyclerView : RecyclerView = layout.findViewById(R.id.my_play_list)
-        val listAdapter = CustomAdapter(playList,this)
-        recyclerView.adapter = listAdapter
+//        val helper = DBHelper(layout.context)
+//        val playList = helper.getPlayLists()
+//        val recyclerView : RecyclerView = layout.findViewById(R.id.my_play_list)
+//        val listAdapter = CustomAdapter(playList,this)
+//        recyclerView.adapter = listAdapter
     }
 
     private fun initButton(layout: View){
