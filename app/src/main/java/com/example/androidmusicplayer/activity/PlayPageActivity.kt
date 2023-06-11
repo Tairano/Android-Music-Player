@@ -11,6 +11,7 @@ import android.os.IBinder
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -34,6 +35,7 @@ class PlayPageActivity : AppCompatActivity() {
     private lateinit var goBack : Button
     private lateinit var songName : TextView
     private lateinit var author : TextView
+    private lateinit var bitmap : ImageView
     private lateinit var preSong : Button
     private lateinit var nextSong : Button
     private lateinit var playButton : Button
@@ -53,10 +55,11 @@ class PlayPageActivity : AppCompatActivity() {
                 val play = helper.getByPath(playPath)
                 binder.play(play)
                 if (play != null) {
-//                    recentHelper.insert(play)
+                    recentHelper.insert(play)
                 }
             }
             binder.addAuthor(author)
+            binder.addBitmap(bitmap)
             binder.addName(songName)
             binder.addPlay(playButton)
             binder.addTactic(playType)
@@ -89,7 +92,7 @@ class PlayPageActivity : AppCompatActivity() {
 
                 override fun onStopTrackingTouch(seekBar: SeekBar?) {
                     // 用户停止拖动进度条时恢复音乐播放
-                    player.start()
+                    binder.pause()
                 }
             })
             binder.refresh()
@@ -97,6 +100,7 @@ class PlayPageActivity : AppCompatActivity() {
 
         override fun onServiceDisconnected(name: ComponentName?) {
             binder.removeAuthor(author)
+            binder.removeBitmap(bitmap)
             binder.removeName(songName)
             binder.removePlay(playButton)
             binder.removeTactic(playType)
@@ -121,6 +125,7 @@ class PlayPageActivity : AppCompatActivity() {
         goBack = findViewById(R.id.go_back)
         songName = findViewById(R.id.song_name)
         author  = findViewById(R.id.author)
+        bitmap  = findViewById(R.id.bitmap)
         preSong = findViewById(R.id.pre_song)
         nextSong = findViewById(R.id.next_song)
         playButton = findViewById(R.id.play)
@@ -133,6 +138,7 @@ class PlayPageActivity : AppCompatActivity() {
         goBack.setOnClickListener { this.finish() }
         preSong.setOnClickListener { binder.pre() }
         nextSong.setOnClickListener { binder.forceNext() }
+        favour.setOnClickListener { binder.changeFavour() }
 
         val intents = Intent(this, PlayService::class.java)
         bindService(intents, connection, Context.BIND_AUTO_CREATE)

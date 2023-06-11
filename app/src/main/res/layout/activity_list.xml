@@ -15,8 +15,8 @@
         <Button
             android:id="@+id/go_back"
             style="@style/CardButton"
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
             android:background="@drawable/go_back"
             android:backgroundTintMode="src_over" />
 
@@ -47,9 +47,9 @@
 
         <Button
             android:id="@+id/play_all"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_margin="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
             android:background="@drawable/stop" />
 
         <TextView

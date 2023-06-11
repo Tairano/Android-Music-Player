@@ -12,6 +12,7 @@ import android.os.Binder
 import android.os.IBinder
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.RemoteViews
 import android.widget.TextView
 import android.widget.Toast
@@ -19,6 +20,7 @@ import androidx.core.app.NotificationCompat
 import com.example.androidmusicplayer.MainActivity
 import com.example.androidmusicplayer.R
 import com.example.androidmusicplayer.activity.PLAY_TYPE_TOAST
+import com.example.androidmusicplayer.db_controll.FavourDbHelper
 import com.example.androidmusicplayer.struct.MyListener
 import com.example.androidmusicplayer.struct.Play
 import kotlin.random.Random
@@ -26,6 +28,7 @@ import kotlin.random.Random
 fun rand(max: Int, min: Int): Int = Random.nextInt(max - min + 1) + min
 
 open class PlayService : Service() {
+    private val helper = FavourDbHelper(this)
     private val binder = PlayBinder()
     private lateinit var player : MediaPlayer
     private var path = ""
@@ -116,6 +119,11 @@ open class PlayService : Service() {
         listener.playStatus = 0
         listener.name = playList[point].title
         listener.author = playList[point].artist.toString()
+        listener.favourStatus = helper.getStatus(playList[point].title)
+        if(byteArrayToBitmap(playList[point].bitmap) != null)
+            listener.bitmap = byteArrayToBitmap(playList[point].bitmap)!!
+        else
+            listener.bitmap = drawableToBitmap(this, R.drawable.logo)
         listener.refresh()
         player.start()
     }
@@ -131,6 +139,7 @@ open class PlayService : Service() {
     }
 
     fun changeFavourStatus(){
+        listener.favourStatus = helper.insertOrRemove(playList[point])
         listener.refresh()
     }
 
@@ -272,6 +281,14 @@ open class PlayService : Service() {
 
         fun addAuthor(view: TextView){
             listener.addAuthorView(view)
+        }
+
+        fun addBitmap(view: ImageView){
+            listener.addBitmapView(view)
+        }
+
+        fun removeBitmap(view: ImageView){
+            listener.removeBitmapView(view)
         }
 
         fun removeAuthor(view: TextView){

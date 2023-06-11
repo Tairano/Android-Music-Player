@@ -21,7 +21,7 @@ class PlayListActivity : AppCompatActivity() {
     }
 
     private fun initPage(){
-        val listName: TextView = findViewById(R.id.list_name)
+        val listName: TextView = findViewById(R.id.name)
         val comment: TextView = findViewById(R.id.comment)
         val goBack : Button = findViewById(R.id.go_back)
 //        listName.text = playList.name

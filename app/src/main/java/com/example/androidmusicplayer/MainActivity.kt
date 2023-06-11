@@ -14,13 +14,14 @@ import com.example.androidmusicplayer.basicpage.Mine
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import android.Manifest
+import android.util.Log
 import android.widget.Toast
 import com.example.androidmusicplayer.db_controll.FavourDbHelper
 import com.example.androidmusicplayer.db_controll.ListDbHelper
 import com.example.androidmusicplayer.db_controll.LocalPlayDbHelper
 import com.example.androidmusicplayer.db_controll.PlayDbHelper
 import com.example.androidmusicplayer.db_controll.RecentDbHelper
-import com.example.androidmusicplayer.media.PlayService
+import com.example.androidmusicplayer.media.TAG
 import com.example.androidmusicplayer.media.getAllMp3Files
 
 val fragments = arrayOf(
@@ -38,8 +39,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initPage()
-        service = Intent(this, PlayService::class.java)
-        startService(service)
     }
 
     override fun onDestroy() {
@@ -70,6 +69,7 @@ class MainActivity : AppCompatActivity() {
                 // 请求代码匹配，处理存储权限请求结果
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+                    Log.d(TAG,"??????")
                     getAllMp3Files(this)
                 } else {
                     Toast.makeText(this, "未获得存储权限，无法扫描本机文件。", Toast.LENGTH_SHORT).show()

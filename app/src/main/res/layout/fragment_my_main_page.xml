@@ -79,64 +79,162 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <Button
+                    <LinearLayout
                         android:id="@+id/localMusic"
                         android:layout_width="0dp"
-                        android:layout_height="60dp"
+                        android:layout_height="70dp"
                         android:layout_weight="1"
-                        style="@style/CardButton"
-                        android:background="@drawable/card_radius"
-                        android:text="@string/button_localMusic_text"/>
+                        android:background="@drawable/list_card_radius"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                    <Button
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/folder"
+                            app:tint="@color/favour_red" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/button_localMusic_text"
+                            android:textAlignment="center"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/recentPlayed"
                         android:layout_width="0dp"
-                        android:layout_height="60dp"
+                        android:layout_height="70dp"
                         android:layout_weight="1"
-                        style="@style/CardButton"
-                        android:background="@drawable/card_radius"
-                        android:text="@string/button_recentPlayed_text" />
+                        android:background="@drawable/list_card_radius"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                    <Button
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/recent_played"
+                            app:tint="@color/favour_red" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/button_recentPlayed_text"
+                            android:textAlignment="center"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/myCollection"
                         android:layout_width="0dp"
-                        android:layout_height="60dp"
+                        android:layout_height="70dp"
                         android:layout_weight="1"
-                        style="@style/CardButton"
-                        android:background="@drawable/card_radius"
-                        android:text="@string/button_myCollection_text" />
+                        android:background="@drawable/list_card_radius"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/collection"
+                            app:tint="@color/favour_red" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/button_myCollection_text"
+                            android:textAlignment="center"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" >
 
-                    <Button
+                    <LinearLayout
                         android:id="@+id/myFriends"
                         android:layout_width="0dp"
-                        android:layout_height="60dp"
+                        android:layout_height="70dp"
                         android:layout_weight="1"
-                        style="@style/CardButton"
-                        android:background="@drawable/card_radius"
-                        android:text="@string/button_myFriends_text" />
+                        android:background="@drawable/list_card_radius"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                    <Button
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/friends"
+                            app:tint="@color/favour_red" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/button_myFriends_text"
+                            android:textAlignment="center"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/collectionAndSupport"
                         android:layout_width="0dp"
-                        android:layout_height="60dp"
+                        android:layout_height="70dp"
                         android:layout_weight="1"
-                        style="@style/CardButton"
-                        android:background="@drawable/card_radius"
-                        android:text="@string/button_collectionAndSupport_text" />
+                        android:background="@drawable/list_card_radius"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                    <Button
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/cloud"
+                            app:tint="@color/favour_red" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/button_collectionAndSupport_text"
+                            android:textAlignment="center"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/podcasts"
                         android:layout_width="0dp"
-                        android:layout_height="60dp"
+                        android:layout_height="70dp"
                         android:layout_weight="1"
-                        style="@style/CardButton"
-                        android:background="@drawable/card_radius"
-                        android:text="@string/button_podcasts_text" />
+                        android:background="@drawable/list_card_radius"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/boardcast"
+                            app:tint="@color/favour_red" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/button_podcasts_text"
+                            android:textAlignment="center"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
                 </TableRow>
             </TableLayout>
 
@@ -175,7 +273,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="23dp"
-                        android:text="1020首，0首已下载"
                         android:textColor="#808080" />
                 </LinearLayout>
 
@@ -216,16 +313,13 @@
                         android:id="@+id/create_list"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_margin="5dp"
-                        android:backgroundTint="@color/deep_gray"
-                        android:background="@drawable/more"/>
+                        android:background="@drawable/add"/>
 
                     <Button
                         android:id="@+id/more"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_margin="5dp"
-                        android:backgroundTint="@color/deep_gray"
                         android:background="@drawable/more"/>
 
                 </LinearLayout>

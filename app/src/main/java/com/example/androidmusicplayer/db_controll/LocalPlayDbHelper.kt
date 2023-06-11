@@ -76,12 +76,6 @@ class LocalPlayDbHelper (val context: Context) : DBHelper(context) {
         db.close()
     }
 
-    fun clear(){
-        val db = readableDatabase
-        db.delete(TABLE_NAME, null, null)
-        db.close()
-    }
-
     @SuppressLint("Range")
     fun getByPath(path: String): Play? {
         val db = readableDatabase
@@ -258,6 +252,12 @@ class LocalPlayDbHelper (val context: Context) : DBHelper(context) {
             storageList.add(localStorage)
         }
         return storageList
+    }
+
+    fun clear(){
+        val db = writableDatabase
+        db.execSQL("DELETE FROM $TABLE_NAME")
+        db.close()
     }
 }
 

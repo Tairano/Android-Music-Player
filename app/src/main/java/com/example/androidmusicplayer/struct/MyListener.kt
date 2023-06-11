@@ -1,6 +1,8 @@
 package com.example.androidmusicplayer.struct
 
+import android.graphics.Bitmap
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import com.example.androidmusicplayer.R
 
@@ -18,7 +20,7 @@ val FAVOUR_STATUS = arrayOf(
 val PLAY_TYPE_STATUS = arrayOf(
     0 to R.drawable.one_recycle,
     1 to R.drawable.hole_recycle,
-    2 to R.drawable.radom
+    2 to R.drawable.random
 )
 
 class MyListener {
@@ -27,12 +29,14 @@ class MyListener {
     private val favourButtonList = ArrayList<TextView>()
     private val nameList = ArrayList<TextView>()
     private val authorList = ArrayList<TextView>()
+    private val bitmapList = ArrayList<ImageView>()
 
     var playStatus = 1
     var favourStatus = 0
     var playTypeStatus = 2
     var name = ""
     var author = ""
+    var bitmap : Bitmap? = null
 
     fun refresh(){
         refreshPlayButton()
@@ -40,6 +44,7 @@ class MyListener {
         refreshNameText()
         refreshAuthorText()
         refreshFavourButton()
+        refreshBitmapView()
     }
 
     private fun refreshPlayButton(){
@@ -64,6 +69,15 @@ class MyListener {
     private fun refreshNameText(){
         for(i in nameList){
             i.text = name
+        }
+    }
+
+    private fun refreshBitmapView(){
+        for(i in bitmapList){
+            if(bitmap != null)
+                i.setImageBitmap(bitmap)
+            else
+                i.setImageResource(R.drawable.album)
         }
     }
 
@@ -111,5 +125,13 @@ class MyListener {
 
     fun removeAuthorView(view: TextView){
         authorList.remove(view)
+    }
+
+    fun addBitmapView(view: ImageView){
+        bitmapList.add(view)
+    }
+
+    fun removeBitmapView(view: ImageView){
+        bitmapList.remove(view)
     }
 }

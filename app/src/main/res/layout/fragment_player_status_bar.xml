@@ -12,10 +12,10 @@
         tools:ignore="UselessParent">
 
         <ImageView
-            android:id="@+id/play_image"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            tools:src="@drawable/logo"
+            android:id="@+id/bitmap"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
             android:importantForAccessibility="no" />
 
         <LinearLayout
@@ -63,8 +63,9 @@
 
             <Button
                 android:id="@+id/menu"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
                 android:background="@drawable/menu"
                 tools:ignore="ButtonStyle" />
 

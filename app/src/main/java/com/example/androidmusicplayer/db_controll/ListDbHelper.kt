@@ -64,17 +64,9 @@ class ListDbHelper(val context: Context) : DBHelper(context) {
         db.close()
     }
 
-    fun clear(){
-        val db = readableDatabase
-        db.delete(TABLE_NAME, null, null)
-        db.close()
-    }
-
     @SuppressLint("Range")
     fun query(str: String?): ArrayList<PlayList> {
         val list = ArrayList<PlayList>()
-        if(str == null)
-            return list
         val db = readableDatabase
         val tableName = TABLE_NAME
         val columns = arrayOf(
@@ -84,8 +76,14 @@ class ListDbHelper(val context: Context) : DBHelper(context) {
             COLUMN4,
             COLUMN5
         )
-        val selection = "$COLUMN2 = $str"
-        val cursor: Cursor? = db.query(tableName, columns, selection, null, null, null, null)
+        var selectionArgs : Array<String>? = null
+        val selection =
+            if(str != null){
+                selectionArgs = arrayOf("%$str%")
+                "${LocalPlayDbHelper.COLUMN2} like ?"
+            }
+            else null
+        val cursor: Cursor? = db.query(tableName, columns, selection, selectionArgs, null, null, null)
         cursor?.let {
             while (it.moveToNext()) {
                 val id = it.getInt(it.getColumnIndex(COLUMN1))
@@ -102,5 +100,11 @@ class ListDbHelper(val context: Context) : DBHelper(context) {
         cursor?.close()
         db.close()
         return list
+    }
+
+    fun clear(){
+        val db = writableDatabase
+        db.execSQL("DELETE FROM $TABLE_NAME")
+        db.close()
     }
 }

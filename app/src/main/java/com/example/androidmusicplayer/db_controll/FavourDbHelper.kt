@@ -69,17 +69,28 @@ class FavourDbHelper (context: Context) : DBHelper(context) {
         db.close()
     }
 
-    fun clear(){
-        val db = readableDatabase
-        db.delete(TABLE_NAME, null, null)
-        db.close()
-    }
-    
     @SuppressLint("Range")
-    fun query(str: String?): ArrayList<Play> {
-        val list = ArrayList<Play>()
-        if(str == null)
-            return list
+    fun insertOrRemove(play: Play): Int {
+        val db = writableDatabase
+        val query = "SELECT * FROM $TABLE_NAME WHERE $COLUMN2 = ?"
+        val cursor = db.rawQuery(query, arrayOf(play.title))
+
+        if (cursor.count > 0) {
+            val deleteQuery = "DELETE FROM $TABLE_NAME WHERE $COLUMN2 = ?"
+            db.execSQL(deleteQuery, arrayOf(play.title))
+            cursor.close()
+            db.close()
+            return 0
+        }
+        cursor.close()
+        db.close()
+        insert(play)
+        return 1
+    }
+
+    @SuppressLint("Range")
+    fun getStatus(str: String): Int{
+        var result = 0
         val db = readableDatabase
         val tableName = TABLE_NAME
         val columns = arrayOf(
@@ -90,8 +101,41 @@ class FavourDbHelper (context: Context) : DBHelper(context) {
             COLUMN5,
             COLUMN6
         )
-        val selection = "$COLUMN2 = $str"
-        val cursor: Cursor? = db.query(tableName, columns, selection, null, null, null, null)
+        val selection = "$COLUMN2 = ?"
+        val selectionArgs = arrayOf(str)
+        val cursor: Cursor? = db.query(tableName, columns, selection, selectionArgs, null, null, null)
+        cursor?.let {
+            while (it.moveToNext()) {
+                result = 1
+                break
+            }
+        }
+        cursor?.close()
+        db.close()
+        return result
+    }
+
+    @SuppressLint("Range")
+    fun query(str: String?): ArrayList<Play> {
+        val list = ArrayList<Play>()
+        val db = readableDatabase
+        val tableName = TABLE_NAME
+        val columns = arrayOf(
+            COLUMN1,
+            COLUMN2,
+            COLUMN3,
+            COLUMN4,
+            COLUMN5,
+            COLUMN6
+        )
+        var selectionArgs : Array<String>? = null
+        val selection =
+            if(str != null){
+                selectionArgs = arrayOf("%$str%")
+                "${LocalPlayDbHelper.COLUMN2} like ?"
+            }
+            else null
+        val cursor: Cursor? = db.query(tableName, columns, selection, selectionArgs, null, null, null)
         cursor?.let {
             while (it.moveToNext()) {
                 val title = it.getString(it.getColumnIndex(COLUMN2))
@@ -106,5 +150,40 @@ class FavourDbHelper (context: Context) : DBHelper(context) {
         cursor?.close()
         db.close()
         return list
+    }
+
+    @SuppressLint("Range")
+    fun getLast(): Play?{
+        val db = readableDatabase
+        val tableName = TABLE_NAME
+        val columns = arrayOf(
+            COLUMN1,
+            COLUMN2,
+            COLUMN3,
+            COLUMN4,
+            COLUMN5,
+            COLUMN6
+        )
+        var play : Play? = null
+        val cursor: Cursor? = db.query(tableName, columns, null, null, null, null, "$COLUMN1 DESC", "1")
+        cursor?.let {
+            while (it.moveToNext()) {
+                val title = it.getString(it.getColumnIndex(COLUMN2))
+                val artist = it.getString(it.getColumnIndex(COLUMN3))
+                val album = it.getString(it.getColumnIndex(COLUMN4))
+                val path = it.getString(it.getColumnIndex(COLUMN5))
+                val bitmap = it.getBlob(it.getColumnIndex(COLUMN6))
+                play = Play(title,artist,album,path, bitmap)
+            }
+        }
+        cursor?.close()
+        db.close()
+        return play
+    }
+
+    fun clear(){
+        val db = writableDatabase
+        db.execSQL("DELETE FROM $TABLE_NAME")
+        db.close()
     }
 }

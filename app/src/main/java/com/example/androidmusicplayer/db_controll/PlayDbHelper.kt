@@ -131,8 +131,8 @@ class PlayDbHelper (context: Context) : DBHelper(context) {
     }
 
     fun clear(){
-        val db = readableDatabase
-        db.delete(TABLE_NAME, null, null)
+        val db = writableDatabase
+        db.execSQL("DELETE FROM $TABLE_NAME")
         db.close()
     }
 }
