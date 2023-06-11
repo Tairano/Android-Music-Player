@@ -54,28 +54,6 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(tabLayout, viewPager2) {tab, position ->
             tab.text = fragments[position].first
         }.attach()
-        val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        val requestCode = 1
-        ActivityCompat.requestPermissions(this, permissions, requestCode)
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        when (requestCode) {
-            1 -> {
-                // 请求代码匹配，处理存储权限请求结果
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-                    Log.d(TAG,"??????")
-                    getAllMp3Files(this)
-                } else {
-                    Toast.makeText(this, "未获得存储权限，无法扫描本机文件。", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
     }
 
     private inner class MyViewPager2Adapter(fm : AppCompatActivity) : FragmentStateAdapter(fm) {
