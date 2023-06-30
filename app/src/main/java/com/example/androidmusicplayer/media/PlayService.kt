@@ -1,16 +1,18 @@
 package com.example.androidmusicplayer.media
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.BitmapFactory
 import android.media.MediaPlayer
 import android.os.Binder
 import android.os.IBinder
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.RemoteViews
@@ -28,6 +30,8 @@ import kotlin.random.Random
 fun rand(max: Int, min: Int): Int = Random.nextInt(max - min + 1) + min
 
 open class PlayService : Service() {
+    private val receiver = MyBroadcastReceiver()
+    private lateinit var view : RemoteViews
     private val helper = FavourDbHelper(this)
     private val binder = PlayBinder()
     private lateinit var player : MediaPlayer
@@ -92,6 +96,7 @@ open class PlayService : Service() {
             0
         }
         listener.refresh()
+        startForeground()
     }
 
     fun addSong(play: Play?){
@@ -123,8 +128,9 @@ open class PlayService : Service() {
         if(byteArrayToBitmap(playList[point].bitmap) != null)
             listener.bitmap = byteArrayToBitmap(playList[point].bitmap)!!
         else
-            listener.bitmap = drawableToBitmap(this, R.drawable.logo)
+            listener.bitmap = drawableToBitmap(this, R.drawable.album)
         listener.refresh()
+        startForeground()
         player.start()
     }
 
@@ -148,6 +154,11 @@ open class PlayService : Service() {
     }
 
     override fun onCreate() {
+        val intentFilter = IntentFilter()
+        intentFilter.addAction("com.android.music.player.foreground.NEXT")
+        intentFilter.addAction("com.android.music.player.foreground.PRE")
+        intentFilter.addAction("com.android.music.player.foreground.PAUSE")
+        registerReceiver(receiver, intentFilter)
         super.onCreate()
         player = MediaPlayer()
         startForeground()
@@ -161,6 +172,7 @@ open class PlayService : Service() {
     override fun onDestroy() {
         player.stop()
         player.release()
+        unregisterReceiver(receiver)
         super.onDestroy()
     }
 
@@ -168,6 +180,7 @@ open class PlayService : Service() {
         return super.onStartCommand(intent, flags, startId)
     }
 
+    @SuppressLint("RemoteViewLayout")
     private fun startForeground(){
         // 创建前台
         val channelId = "AndroidMusicPlayer.foreground"
@@ -177,23 +190,32 @@ open class PlayService : Service() {
         manager.createNotificationChannel(channel)
         val intents = Intent(this, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, intents, PendingIntent.FLAG_IMMUTABLE)
-        val view = RemoteViews(this.packageName, R.layout.foreground)
+        view = RemoteViews(this.packageName, R.layout.foreground)
+        if(playList.size > 0){
+            view.setImageViewBitmap(R.id.bitmap,byteArrayToBitmap(playList[point].bitmap))
+            view.setTextViewText(R.id.name,playList[point].title)
+            view.setTextViewText(R.id.author,playList[point].artist)
+        }
+        else{
+            view.setImageViewResource(R.id.bitmap,R.drawable.album)
+            view.setTextViewText(R.id.name,"无歌曲播放")
+            view.setTextViewText(R.id.author,"-")
+        }
+        val intentNext = Intent(this, MyBroadcastReceiver::class.java)
+        intentNext.action = "com.android.music.player.foreground.NEXT"
+        val pendingIntent1 = PendingIntent.getBroadcast(this, 0, intentNext, PendingIntent.FLAG_UPDATE_CURRENT)
 
-//        val preButton = Intent(this, MyBroadcastReceiver::class.java)
-//        preButton.action = PRE_ACTION
-//        val pendingPreButton = PendingIntent.getBroadcast(this, 0, preButton, PendingIntent.FLAG_IMMUTABLE)
-//
-//        val playButton = Intent(this, MyBroadcastReceiver::class.java)
-//        playButton.action = PLAY_ACTION
-//        val pendingPlayButton = PendingIntent.getBroadcast(this, 0, playButton, PendingIntent.FLAG_IMMUTABLE)
-//
-//        val nextButton = Intent(this, MyBroadcastReceiver::class.java)
-//        nextButton.action = NEXT_ACTION
-//        val pendingNextButton = PendingIntent.getBroadcast(this, 0, nextButton, PendingIntent.FLAG_IMMUTABLE)
-//
-//        view.setOnClickPendingIntent(R.id.pre_song,pendingPreButton)
-//        view.setOnClickPendingIntent(R.id.play,pendingPlayButton)
-//        view.setOnClickPendingIntent(R.id.next_song,pendingNextButton)
+        val intentPause = Intent(this, MyBroadcastReceiver::class.java)
+        intentPause.action = "com.android.music.player.foreground.PAUSE"
+        val pendingIntent2 = PendingIntent.getBroadcast(this, 0, intentPause, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val intentPre = Intent(this, MyBroadcastReceiver::class.java)
+        intentPre.action = "com.android.music.player.foreground.PRE"
+        val pendingIntent3 = PendingIntent.getBroadcast(this, 0, intentPre, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        view.setOnClickPendingIntent(R.id.next_song,pendingIntent1)
+        view.setOnClickPendingIntent(R.id.play,pendingIntent2)
+        view.setOnClickPendingIntent(R.id.pre_song,pendingIntent3)
 
         val notification = NotificationCompat.Builder(this, channelId)
             .setContentTitle(channelName)
@@ -296,5 +318,26 @@ open class PlayService : Service() {
         }
 
         fun refresh() = listener.refresh()
+    }
+
+    inner class MyBroadcastReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            when(intent?.action){
+                "com.android.music.player.foreground.NEXT"->{
+                    nextSong()
+                }
+                "com.android.music.player.foreground.PRE"->{
+                    preSong()
+                }
+                "com.android.music.player.foreground.PAUSE"->{
+                    pauseOrPlay()
+                }
+            }
+            refreshForeground()
+        }
+    }
+
+    fun refreshForeground(){
+        startForeground()
     }
 }

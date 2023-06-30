@@ -10,7 +10,7 @@ import com.example.androidmusicplayer.struct.Play
 
 class FavourDbHelper (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
-        private const val DATABASE_VERSION = 2
+        private const val DATABASE_VERSION = 6
         private const val DATABASE_NAME = "favour_base.db"
 
         const val TABLE_NAME = "favour_base"

@@ -46,7 +46,7 @@ class LocalAdapter(private val dataSet: ArrayList<LocalStorage>, val context: Fr
             holder.image.setImageBitmap(
                 byteArrayToBitmap(localStorage.bitMap))
         else{
-            holder.image.setImageResource(R.drawable.logo)
+            holder.image.setImageResource(R.drawable.album)
         }
         holder.name.text = localStorage.name
         holder.comment.text = localStorage.comment

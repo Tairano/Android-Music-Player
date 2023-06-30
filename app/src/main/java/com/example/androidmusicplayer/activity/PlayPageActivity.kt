@@ -9,14 +9,20 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import android.util.Log
+import android.view.Menu
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.example.androidmusicplayer.R
+import com.example.androidmusicplayer.db_controll.ListDbHelper
 import com.example.androidmusicplayer.db_controll.LocalPlayDbHelper
+import com.example.androidmusicplayer.db_controll.PlayDbHelper
 import com.example.androidmusicplayer.db_controll.RecentDbHelper
 import com.example.androidmusicplayer.media.PlayService
 
@@ -29,6 +35,8 @@ val PLAY_TYPE_TOAST = arrayOf(
 class PlayPageActivity : AppCompatActivity() {
     private val helper = LocalPlayDbHelper(this)
     private val recentHelper = RecentDbHelper(this)
+    private val listDbHelper = ListDbHelper(this)
+    private val playDbHelper = PlayDbHelper(this)
     private lateinit var playPath : String
     private lateinit var binder : PlayService.PlayBinder
 
@@ -41,6 +49,7 @@ class PlayPageActivity : AppCompatActivity() {
     private lateinit var playButton : Button
     private lateinit var playType : Button
     private lateinit var favour : Button
+    private lateinit var addInList : Button
     private lateinit var seekBar : SeekBar
     private lateinit var duration : TextView
     private lateinit var lengthView : TextView
@@ -121,6 +130,34 @@ class PlayPageActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+    private fun popUpMenu(v: View?){
+        val popupMenu = PopupMenu(this,v)
+        val menu = popupMenu.menu
+        val listList = listDbHelper.query(null)
+        for(i in listList){
+            menu.add(Menu.NONE,i.id,Menu.NONE,"添加到 " + i.name)
+        }
+        popupMenu.setOnMenuItemClickListener{ item ->
+            for(i in listList) {
+                if(playPath != ""){
+                    val play = helper.getByPath(playPath)
+                    binder.play(play)
+                    if (play != null) {
+                        val result = playDbHelper.insert(play,listDbHelper.findListIdByName(i.name))
+                        if(result == -1){
+                            Toast.makeText(this, "歌曲已存在！", Toast.LENGTH_SHORT).show()
+                        }
+                        else{
+                            Toast.makeText(this, "添加成功。", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+            }
+            return@setOnMenuItemClickListener false
+        }
+        popupMenu.show()
+    }
+
     private fun initPage(){
         goBack = findViewById(R.id.go_back)
         songName = findViewById(R.id.song_name)
@@ -134,11 +171,13 @@ class PlayPageActivity : AppCompatActivity() {
         seekBar = findViewById(R.id.seekBar)
         duration = findViewById(R.id.duration)
         lengthView = findViewById(R.id.length)
+        addInList = findViewById(R.id.add_in_list)
 
         goBack.setOnClickListener { this.finish() }
         preSong.setOnClickListener { binder.pre() }
         nextSong.setOnClickListener { binder.forceNext() }
         favour.setOnClickListener { binder.changeFavour() }
+        addInList.setOnClickListener { popUpMenu(addInList) }
 
         val intents = Intent(this, PlayService::class.java)
         bindService(intents, connection, Context.BIND_AUTO_CREATE)

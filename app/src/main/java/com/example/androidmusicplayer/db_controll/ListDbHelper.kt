@@ -14,7 +14,7 @@ import java.io.ByteArrayOutputStream
 
 class ListDbHelper(val context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
-        private const val DATABASE_VERSION = 2
+        private const val DATABASE_VERSION = 6
         private const val DATABASE_NAME = "play_list_base.db"
 
         const val TABLE_NAME = "play_list_base"
@@ -35,11 +35,12 @@ class ListDbHelper(val context: Context) : SQLiteOpenHelper(context, DATABASE_NA
         const val COLUMN5_TYPE = "TEXT"
     }
 
-    private fun insertData(values: ContentValues, database: String) {
+    private fun insertData(values: ContentValues, database: String): Long {
         val db = writableDatabase
         val conflictAlgorithm = SQLiteDatabase.CONFLICT_REPLACE
-        db.insertWithOnConflict(database, null, values, conflictAlgorithm)
+        val result = db.insertWithOnConflict(database, null, values, conflictAlgorithm)
         db.close()
+        return result
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -58,13 +59,13 @@ class ListDbHelper(val context: Context) : SQLiteOpenHelper(context, DATABASE_NA
         onCreate(db)
     }
 
-    fun insert(playList: PlayList){
+    fun insert(playList: PlayList): Int{
         val value = ContentValues()
         value.put(COLUMN2, playList.name)
         value.put(COLUMN3, playList.comment)
         value.put(COLUMN4, playList.bitmap)
         value.put(COLUMN5, playList.user)
-        insertData(value, TABLE_NAME)
+        return insertData(value, TABLE_NAME).toInt()
     }
 
     fun remove(str: String){
@@ -104,13 +105,32 @@ class ListDbHelper(val context: Context) : SQLiteOpenHelper(context, DATABASE_NA
                 val user = it.getString(it.getColumnIndex(COLUMN5))
                 val helper = PlayDbHelper(context)
                 val size = helper.queryByListId(id).size
-                val playList = PlayList(name,user,comment, bitmap,size)
+                val playList = PlayList(name,user,comment, bitmap,size,id)
                 list.add(playList)
             }
         }
         cursor?.close()
         db.close()
         return list
+    }
+
+    @SuppressLint("Range")
+    fun findListIdByName(str: String): Int {
+        val db = readableDatabase
+        val tableName = TABLE_NAME
+        val columns = arrayOf(COLUMN1)
+        val selection = "$COLUMN1 = $str"
+        var id = -1
+        val cursor: Cursor? = db.query(tableName, columns, selection, null, null, null, null)
+        cursor?.let {
+            while (it.moveToNext()) {
+                id = it.getInt(it.getColumnIndex(PlayDbHelper.COLUMN1))
+                break
+            }
+        }
+        cursor?.close()
+        db.close()
+        return id
     }
 
     fun clear(){

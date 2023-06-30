@@ -3,24 +3,35 @@ package com.example.androidmusicplayer.basicpage
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.navigation.fragment.findNavController
+import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidmusicplayer.R
+import com.example.androidmusicplayer.adapter.PlayAdapter
 import com.example.androidmusicplayer.adapter.PlayListAdapter
 import com.example.androidmusicplayer.db_controll.FavourDbHelper
 import com.example.androidmusicplayer.db_controll.ListDbHelper
 import com.example.androidmusicplayer.media.byteArrayToBitmap
+import com.example.androidmusicplayer.struct.PlayList
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+
 
 class Mine : Fragment() {
+    private lateinit var helper : ListDbHelper
+    private lateinit var playList : ArrayList<PlayList>
+    private lateinit var recyclerView : RecyclerView
+    private lateinit var listAdapter : PlayListAdapter
+    private lateinit var layout : View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +44,7 @@ class Mine : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val layout = inflater.inflate(R.layout.fragment_my_main_page, container, false)
+        layout = inflater.inflate(R.layout.fragment_my_main_page, container, false)
         initPlayList(layout)
         initButton(layout)
         return layout
@@ -55,10 +66,10 @@ class Mine : Fragment() {
             else
                 favourBitmap.setImageResource(R.drawable.favour1)
         }
-        val helper = ListDbHelper(layout.context)
-        val playList = helper.query(null)
-        val recyclerView : RecyclerView = layout.findViewById(R.id.my_play_list)
-        val listAdapter = PlayListAdapter(playList,this)
+        helper = ListDbHelper(layout.context)
+        playList = helper.query(null)
+        recyclerView = layout.findViewById(R.id.my_play_list)
+        listAdapter = PlayListAdapter(playList,this)
         recyclerView.adapter = listAdapter
     }
 
@@ -70,6 +81,7 @@ class Mine : Fragment() {
         val collectionAndSupport : LinearLayout = layout.findViewById(R.id.collectionAndSupport)
         val podcasts : LinearLayout = layout.findViewById(R.id.podcasts)
         val myFavour : LinearLayout = layout.findViewById(R.id.favour)
+        val create : Button = layout.findViewById(R.id.create_list)
         localMusic.setOnClickListener {
             val intent = Intent("LocalMusicActivity")
             startActivity(intent)
@@ -86,9 +98,55 @@ class Mine : Fragment() {
             val intent = Intent("MyCollectionActivity")
             startActivity(intent)
         }
+        create.setOnClickListener {
+            createBottomDialog()
+        }
         myFriends.setOnClickListener { notRealize() }
         collectionAndSupport.setOnClickListener { notRealize() }
         podcasts.setOnClickListener { notRealize() }
+    }
+
+    private fun createBottomDialog(){
+        val bottomSheetDialog = context?.let { BottomSheetDialog(it) }
+        val view: View = LayoutInflater.from(context).inflate(com.example.androidmusicplayer.R.layout.create_list, null)
+        bottomSheetDialog?.setContentView(view)
+        val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(view.parent as View)
+        val confirm : Button = view.findViewById(R.id.confirm)
+        val cancel : Button = view.findViewById(R.id.cancel)
+        val name : EditText = view.findViewById(R.id.name)
+        val comment : EditText = view.findViewById(R.id.comment)
+        val user : EditText = view.findViewById(R.id.user)
+
+        confirm.setOnClickListener {
+            val names = name.text.toString()
+            val comments = comment.text.toString()
+            val users = user.text.toString()
+            if(names == "" || comments == "" || users == ""){
+                Toast.makeText(activity, "请填写完整信息！。", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            else{
+                val list = PlayList(names,users,comments,null,0,-1)
+                if(helper?.insert(list) != -1){
+                    playList = helper.query(null)
+                    recyclerView = layout.findViewById(R.id.my_play_list)
+                    listAdapter = PlayListAdapter(playList,this)
+                    Toast.makeText(activity, "创建成功！", Toast.LENGTH_SHORT).show()
+                    bottomSheetDialog?.dismiss()
+                }
+                else {
+                    Toast.makeText(activity, "创建失败！已有歌单！", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+            }
+        }
+        cancel.setOnClickListener {
+            bottomSheetDialog?.dismiss()
+            Toast.makeText(activity, "取消创建。", Toast.LENGTH_SHORT).show()
+        }
+
+        behavior.peekHeight = 2000
+        bottomSheetDialog?.show()
     }
 
     private fun notRealize(){

@@ -43,7 +43,7 @@ class ListAdapter(private val dataSet: ArrayList<PlayList>, val context: Fragmen
         if(playList.bitmap != null)
             holder.image.setImageBitmap(byteArrayToBitmap(playList.bitmap))
         else
-            holder.image.setImageResource(R.drawable.logo)
+            holder.image.setImageResource(R.drawable.album)
         holder.name.text = playList.name
         holder.comment.text = playList.comment
         holder.size.text = playList.size.toString() + "首     "

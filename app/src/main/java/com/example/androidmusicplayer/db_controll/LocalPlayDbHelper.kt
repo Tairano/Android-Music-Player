@@ -15,10 +15,10 @@ import java.io.ByteArrayOutputStream
 
 class LocalPlayDbHelper (val context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     companion object {
-        private const val DATABASE_VERSION = 2
-        private const val DATABASE_NAME = "play_base.db"
+        private const val DATABASE_VERSION = 6
+        private const val DATABASE_NAME = "local_play_base.db"
 
-        const val TABLE_NAME = "play_base"
+        const val TABLE_NAME = "local_play_base"
 
         const val COLUMN1 = "id"
         const val COLUMN1_TYPE = "INTEGER PRIMARY KEY"
@@ -212,7 +212,7 @@ class LocalPlayDbHelper (val context: Context) : SQLiteOpenHelper(context, DATAB
         cursor?.let {
             if (cursor.moveToFirst()) {
                 do {
-                    val groupBy = it.getString(it.getColumnIndex(str))
+                    val groupBy = it.getString(it.getColumnIndex(str)) ?: continue
                     if(key != groupBy){
                         key = groupBy
                         list[key] = ArrayList<Play>()

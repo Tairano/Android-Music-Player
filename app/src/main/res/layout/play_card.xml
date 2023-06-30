@@ -8,8 +8,8 @@
 
     <TextView
         android:id="@+id/index"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:textAlignment="center"
         android:textColor="#999999"
         android:textSize="18sp"
@@ -55,9 +55,9 @@
 
     <Button
         android:id="@+id/more"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_margin="5dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_margin="18dp"
         android:backgroundTint="@color/deep_gray"
         android:background="@drawable/more"/>
 </LinearLayout>

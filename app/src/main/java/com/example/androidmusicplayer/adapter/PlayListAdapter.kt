@@ -30,7 +30,7 @@ class PlayListAdapter(private val dataSet: ArrayList<PlayList>, val context: Fra
         viewHolder.itemView.setOnClickListener {
             val position = viewHolder.adapterPosition
             val playList = dataSet[position]
-            val intent = Intent("ListActivity")
+            val intent = Intent("PlayListActivity")
             intent.putExtra("list",playList)
             context.startActivity(intent)
         }
@@ -43,7 +43,7 @@ class PlayListAdapter(private val dataSet: ArrayList<PlayList>, val context: Fra
         if(playList.bitmap != null)
             holder.image.setImageBitmap(byteArrayToBitmap(playList.bitmap))
         else
-            holder.image.setImageResource(R.drawable.logo)
+            holder.image.setImageResource(R.drawable.album)
         holder.name.text = playList.name
         holder.comment.text = playList.comment
         holder.size.text = playList.size.toString() + "首     "

@@ -11,6 +11,10 @@
         android:orientation="horizontal"
         tools:ignore="UselessParent">
 
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"/>
+
         <ImageView
             android:id="@+id/bitmap"
             android:layout_width="30dp"

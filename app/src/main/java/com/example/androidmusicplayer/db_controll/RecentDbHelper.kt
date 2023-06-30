@@ -13,7 +13,7 @@ import com.example.androidmusicplayer.struct.Play
 class RecentDbHelper (context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
-        private const val DATABASE_VERSION = 2
+        private const val DATABASE_VERSION = 6
         private const val DATABASE_NAME = "recent_played.db"
 
         const val TABLE_NAME = "recent_played"
